@@ -23,7 +23,7 @@ public class PenelIsDed extends Application {
         ground1.setY(720);
         ground1.yProperty().bind(pane.heightProperty().subtract(ground1.heightProperty()));
         pane.getChildren().add(ground1);
-
+// hi
         Image marioImage = new Image("mario.png");
         ImageView mario = new ImageView(marioImage);
         mario.setFitHeight(60);
