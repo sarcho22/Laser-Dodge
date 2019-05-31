@@ -26,27 +26,31 @@ public class PenelIsDed extends Application {
 //
 
         Circle c = new Circle(15, 15, 20);
+        c.setFill(Color.POWDERBLUE);
+        pane.getChildren().add(c);
 
-        Image marioImage = new Image("mario.png");
-        ImageView mario = new ImageView(marioImage);
-        mario.setFitHeight(60);
-        mario.setFitWidth(60);
-        mario.setX(5);
-        mario.setY(670);
-        pane.getChildren().add(mario);
+
+
+//        Image marioImage = new Image("mario.png");
+//        ImageView mario = new ImageView(marioImage);
+//        mario.setFitHeight(60);
+//        mario.setFitWidth(60);
+//        mario.setX(5);
+//        mario.setY(670);
+//        pane.getChildren().add(mario);
 
         pane.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.RIGHT){
-                mario.setX(mario.getX() + 5);
+                c.setCenterX(c.getCenterX() + 5);
             }
             else if (e.getCode() == KeyCode.LEFT){
-                mario.setX(mario.getX() - 5);
+                c.setCenterX(c.getCenterX() - 5);
             }
             else if (e.getCode() == KeyCode.DOWN){
-                mario.setY(mario.getY() + 5);
+                c.setCenterY(c.getCenterY() + 5);
             }
             else if (e.getCode() == KeyCode.UP){
-                mario.setY(mario.getY() - 5);
+                c.setCenterY(c.getCenterY() - 5);
             }
         });
 
