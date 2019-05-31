@@ -60,9 +60,9 @@ public class SashaIsGone extends Application {
             else if (e.getCode() == KeyCode.LEFT){
                 mario.setX(mario.getX() - 5);
             }
-            else if (e.getCode() == KeyCode.DOWN){
+            /*else if (e.getCode() == KeyCode.DOWN){
                 mario.setY(mario.getY() + 5);
-            }
+            }*/
             else if (e.getCode() == KeyCode.UP){
                 mario.setY(mario.getY() - 5);
             }
@@ -72,5 +72,6 @@ public class SashaIsGone extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Mario YEET");
         primaryStage.show();
+        pane.requestFocus();
     }
 }
