@@ -29,7 +29,17 @@ public class PenelIsDed extends Application {
         c.setFill(Color.POWDERBLUE);
         pane.getChildren().add(c);
 
+        Circle eye1 = new Circle();
+        eye1.centerXProperty().bind(c.centerXProperty().subtract(11));
+        eye1.centerYProperty().bind(c.centerYProperty().subtract(7));
+        eye1.setFill(Color.BLACK);
+        pane.getChildren().add(eye1);
 
+        Circle eye2 = new Circle();
+        eye2.centerXProperty().bind(c.centerXProperty().add(11));
+        eye2.centerYProperty().bind(c.centerYProperty().subtract(7));
+        eye2.setFill(Color.BLACK);
+        pane.getChildren().add(eye2);
 
 //        Image marioImage = new Image("mario.png");
 //        ImageView mario = new ImageView(marioImage);
