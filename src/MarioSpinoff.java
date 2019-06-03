@@ -18,7 +18,14 @@ import javafx.util.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class MarioSpinoff extends Application {
+    //private Timeline animation;
+
     public void start (Stage primaryStage)throws InterruptedException {
+
+        //animation = new Timeline(new KeyFrame(Duration.millis(50), e -> ));
+        //animation.setCycleCount(Timeline.INDEFINITE);
+        //animation.play();
+
         Pane pane = new Pane();
 
         Rectangle p1 = new Rectangle();

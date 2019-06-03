@@ -32,6 +32,10 @@ public class PenelIsDed extends Application {
 
         while(p1alive) {
 //            lineline laser = new lineline();
+            Timeline timeline = new Timeline(new KeyFrame(
+                    Duration.millis(5000),
+//                    ae -> System.out.println("hi")));
+            timeline.play();
             for(int i = 0; i < score; i++) {
 
 
@@ -61,14 +65,17 @@ public class PenelIsDed extends Application {
 //                try {
 //                    wait(5000);
 //                } catch (Exception e) {}
-                TimeUnit.SECONDS.wait(2);
-                if (Thread.interrupted())  {
-                    throw new InterruptedException();
-                    // Clears interrupted status!
-                }
+//                TimeUnit.SECONDS.wait(2);
+//                if (Thread.interrupted())  {
+//                    throw new InterruptedException();
+//                    // Clears interrupted status!
+//                }
+                Timeline timeline = new Timeline(new KeyFrame(
+                        Duration.millis(5000),
+                        ae -> line.setStroke(Color.RED)));
+                timeline.play();
 
-                line.setStroke(Color.RED);
-                if (isIntersect(p1Bounds, line)) {
+                if (isIntersect(p1, line)) {
                     p1alive = false;
                     break;
                 }
@@ -134,8 +141,8 @@ public class PenelIsDed extends Application {
         primaryStage.show();
         pane.requestFocus();
     }
-    public boolean isIntersect(Bounds p1Bounds, Line line) {
-        if (line.intersects(p1Bounds)) {
+    public boolean isIntersect(Rectangle p1, Line line) {
+        if (p1.getBoundsInParent().intersects(line.getBoundsInParent())) {
             return true;
         }
         return false;
