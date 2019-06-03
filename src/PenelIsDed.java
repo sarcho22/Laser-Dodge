@@ -3,6 +3,7 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Bounds;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,8 +15,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.concurrent.TimeUnit;
+
 public class PenelIsDed extends Application {
-    public void start (Stage primaryStage) {
+    public void start (Stage primaryStage)throws InterruptedException {
         Pane pane = new Pane();
 
         Rectangle p1 = new Rectangle();
@@ -33,8 +36,7 @@ public class PenelIsDed extends Application {
 
 
                 Line line = new Line();
-                line.setFill(Color.WHITE);
-                line.setStroke(Color.RED);
+                line.setStroke(Color.GRAY);
                 pane.getChildren().add(line);
                 Bounds lineBounds = line.getBoundsInParent();
                 int direction = (int)(Math.random() * 2);
@@ -50,13 +52,23 @@ public class PenelIsDed extends Application {
                     line.setEndX(Math.random() * 500);
                     line.setEndY(500);
                 }
-                Timeline timer = new Timeline(
-                        new KeyFrame(Duration.ZERO),
-                        new KeyFrame(Duration.seconds(0.5))
-                );
-//            timer.setAutoReverse(true);
-                timer.setCycleCount(5);
-                if (isIntersect(p1Bounds, lineBounds)) {
+//                Timeline timer = new Timeline(
+//                        new KeyFrame(Duration.ZERO),
+//                        new KeyFrame(Duration.seconds(0.5))
+//                );
+////            timer.setAutoReverse(true);
+//                timer.setCycleCount(5);
+//                try {
+//                    wait(5000);
+//                } catch (Exception e) {}
+                TimeUnit.SECONDS.wait(2);
+                if (Thread.interrupted())  {
+                    throw new InterruptedException();
+                    // Clears interrupted status!
+                }
+
+                line.setStroke(Color.RED);
+                if (isIntersect(p1Bounds, line)) {
                     p1alive = false;
                     break;
                 }
@@ -68,7 +80,8 @@ public class PenelIsDed extends Application {
                 pane.getChildren().clear();
             }
             else {
-                TextField ded = new TextField("YOU GO AWAY U DIED");
+                Label ded = new Label("YOU GO AWAY U DED");
+                pane.getChildren().add(ded);
                 break;
             }
 //
@@ -121,8 +134,8 @@ public class PenelIsDed extends Application {
         primaryStage.show();
         pane.requestFocus();
     }
-    public boolean isIntersect(Bounds p1Bounds, Bounds lineBounds) {
-        if (lineBounds.intersects(p1Bounds)) {
+    public boolean isIntersect(Bounds p1Bounds, Line line) {
+        if (line.intersects(p1Bounds)) {
             return true;
         }
         return false;
