@@ -26,7 +26,6 @@ public class SashaIsGone extends Application {
 */
         Rectangle p1 = new Rectangle(0, 0, 20, 20);
         p1.setFill(Color.POWDERBLUE);
-        pane.getChildren().add(p1);
         Bounds p1Bounds = p1.getBoundsInParent();
         int score = 0;
         boolean p1alive = true;
@@ -60,14 +59,15 @@ public class SashaIsGone extends Application {
             }
         });
 
+        pane.getChildren().add(p1);
+
         while (p1alive) {
 //          lineline laser = new lineline();
             //drawLine1 laser = new drawLine1();
             for (int i = 0; i < score; i++) {
 
                 Line line = new Line();
-                line.setFill(Color.WHITE);
-                line.setStroke(Color.RED);
+                line.setStroke(Color.WHITE);
 
                 Timeline timeline = new Timeline(new KeyFrame(
                         Duration.millis(5000),
@@ -87,12 +87,12 @@ public class SashaIsGone extends Application {
                     line.setEndX(Math.random() * 500);
                     line.setEndY(500);
                 }
-                Timeline timer = new Timeline(
-                        new KeyFrame(Duration.ZERO),
-                        new KeyFrame(Duration.seconds(0.5))
-                );
-//            timer.setAutoReverse(true);
-                timer.setCycleCount(5);
+//                Timeline timer = new Timeline(
+//                        new KeyFrame(Duration.ZERO),
+//                        new KeyFrame(Duration.seconds(0.5))
+//                );
+////            timer.setAutoReverse(true);
+//                timer.setCycleCount(5);
 
 
 //                try {
@@ -123,6 +123,7 @@ public class SashaIsGone extends Application {
                 break;
             }
         }
+
 
         Scene scene = new Scene(pane, 500, 500);
         primaryStage.setScene(scene);
