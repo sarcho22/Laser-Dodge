@@ -24,7 +24,7 @@ public class SashaIsGone extends Application {
         board.heightProperty().bind(pane.heightProperty());
         pane.getChildren().add(board);
 */
-        Rectangle p1 = new Rectangle(0, 0, 20, 20);
+        Rectangle p1 = new Rectangle(20, 20, 20, 20);
         p1.setFill(Color.POWDERBLUE);
         pane.getChildren().add(p1);
         Bounds p1Bounds = p1.getBoundsInParent();
