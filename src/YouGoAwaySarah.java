@@ -12,6 +12,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+
 public class YouGoAwaySarah extends Application {
     public void start (Stage primaryStage) {
         Pane pane = new Pane();
