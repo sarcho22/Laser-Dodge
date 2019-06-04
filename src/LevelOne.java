@@ -4,6 +4,9 @@ import javafx.application.Application;
 import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -12,8 +15,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.concurrent.TimeUnit;
 
-public class YouGoAwaySarah extends Application {
+public class LevelOne extends Application {
     public void start (Stage primaryStage) {
         Pane pane = new Pane();
 
@@ -26,12 +30,10 @@ public class YouGoAwaySarah extends Application {
         int score = 0;
         boolean p1alive = true;
 
-        while(p1alive) {
             Timeline timeline = new Timeline(new KeyFrame(
                     Duration.millis(5000),
-                    ae -> System.out.println()));
-                    timeline.play();
-            for(int i = 0; i < score; i++) {
+                    ae -> System.out.println("hi")));
+            timeline.play();
 
 
                 Line line = new Line();
@@ -51,32 +53,20 @@ public class YouGoAwaySarah extends Application {
                     line.setEndX(Math.random() * 500);
                     line.setEndY(500);
                 }
-//                Timeline timer = new Timeline(
-//                        new KeyFrame(Duration.ZERO),
-//                        new KeyFrame(Duration.seconds(0.5))
-//                );
-////            timer.setAutoReverse(true);
-//                timer.setCycleCount(5);
-//                try {
-//                    wait(5000);
-//                } catch (Exception e) {}
-//                TimeUnit.SECONDS.wait(2);
-//                if (Thread.interrupted())  {
-//                    throw new InterruptedException();
-//                    // Clears interrupted status!
-//                }
-                Timeline timeline2 = new Timeline(new KeyFrame(
+//
+                Timeline yeet = new Timeline(new KeyFrame(
                         Duration.millis(5000),
-                        ae -> line.setStroke(Color.RED)));
-                timeline2.play();
+                        ae -> {
+                            line.setStroke(Color.RED);
+
+                        }));
+                yeet.play();
 
                 if (isIntersect(p1, line)) {
                     p1alive = false;
-                    break;
+
                 }
 
-
-            }
             if(p1alive) {
                 score++;
                 pane.getChildren().clear();
@@ -84,12 +74,10 @@ public class YouGoAwaySarah extends Application {
             else {
                 Label ded = new Label("YOU GO AWAY U DED");
                 pane.getChildren().add(ded);
-                break;
+
             }
 //
 
-
-        }
 
 
 
@@ -144,27 +132,4 @@ public class YouGoAwaySarah extends Application {
     }
 }
 
-//class lineline extends Pane{
-//    public lineline() {
-//        Line line = new Line();
-//        line.setStrokeDashOffset(5);
-//        int direction = (int)(Math.random() * 2);
-//        if(direction == 0){
-//            line.setStartX(0);
-//            line.setStartY(Math.random() * 500);
-//            line.setEndX(500);
-//            line.setEndY(Math.random() * 500);
-//        }
-//        else{
-//            line.setStartX(Math.random() * 500);
-//            line.setStartY(0);
-//            line.setEndX(Math.random() * 500);
-//            line.setEndY(500);
-//        }
-//    }
-//
-//
-//
-//}
-//
-//
+
