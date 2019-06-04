@@ -54,7 +54,9 @@ public class YouGoAwaySarah extends Application {
 
         while (p1alive) {
             pane.getChildren().add(p1);
+
             for (int i = 0; i < score; i++) {
+
                 Line line = new Line();
                 line.setStroke(Color.GRAY);
 
@@ -71,27 +73,42 @@ public class YouGoAwaySarah extends Application {
                     line.setEndY(500);
                 }
 
-                Timeline timeline = new Timeline(new KeyFrame(
+                Timeline timeline2 = new Timeline(new KeyFrame(
                         Duration.millis(5000),
-                        ae -> pane.getChildren().add(line)));
-                timeline.play();
-
-                Bounds lineBounds = line.getBoundsInParent();
+                        ae -> System.out.println("You cleared a level.")));
 
                 Timeline timeline1 = new Timeline(new KeyFrame(
                         Duration.millis(5000),
-                        ae -> line.setStroke(Color.RED)));
-                timeline1.play();
-
+                        ae -> {
+                            line.setStroke(Color.RED);
+                            timeline2.play();
+                        }));
+                Bounds lineBounds = line.getBoundsInParent();
                 if (isIntersect(p1Bounds, lineBounds)) {
                     p1alive = false;
                     break;
                 }
 
-                Timeline timeline2 = new Timeline(new KeyFrame(
+
+
+                Timeline timeline = new Timeline(new KeyFrame(
                         Duration.millis(5000),
-                        ae -> System.out.println("You cleared a level.")));
-                timeline2.play();
+                        ae -> {
+                            pane.getChildren().add(line);
+                            timeline1.play();
+                        }));
+
+
+
+
+
+
+                Timeline start = new Timeline(new KeyFrame(
+                        Duration.millis(5000),
+                        ae -> {
+                            timeline.play();
+                        }));
+                start.play();
             }
 
 
@@ -100,10 +117,14 @@ public class YouGoAwaySarah extends Application {
             if (p1alive) {
                 score++;
                 pane.getChildren().clear();
-            } else {
+            }
+             else if(!p1alive) {
                 Label ded = new Label("YOU GO AWAY U DIED");
                 pane.getChildren().add(ded);
                 break;
+            }
+             else{
+                 System.out.println("wot");
             }
         }
 
