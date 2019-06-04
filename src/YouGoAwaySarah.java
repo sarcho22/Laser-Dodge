@@ -18,7 +18,7 @@ public class YouGoAwaySarah extends Application {
 
         Rectangle p1 = new Rectangle(0, 0, 20, 20);
         p1.setFill(Color.POWDERBLUE);
-        Bounds p1Bounds = p1.getBoundsInParent();
+        Bounds p1Bounds = p1.getBoundsInLocal();
         int score = 0;
         boolean p1alive = true;
 
@@ -54,9 +54,7 @@ public class YouGoAwaySarah extends Application {
 
         while (p1alive) {
             pane.getChildren().add(p1);
-
             for (int i = 0; i < score; i++) {
-
                 Line line = new Line();
                 line.setStroke(Color.GRAY);
 
@@ -83,13 +81,11 @@ public class YouGoAwaySarah extends Application {
                             line.setStroke(Color.RED);
                             timeline2.play();
                         }));
-                Bounds lineBounds = line.getBoundsInParent();
-                if (isIntersect(p1Bounds, lineBounds)) {
+                Bounds lineBounds = line.getBoundsInLocal();
+                if ((lineBounds.intersects(p1Bounds))) {
                     p1alive = false;
                     break;
                 }
-
-
 
                 Timeline timeline = new Timeline(new KeyFrame(
                         Duration.millis(5000),
@@ -98,11 +94,6 @@ public class YouGoAwaySarah extends Application {
                             timeline1.play();
                         }));
 
-
-
-
-
-
                 Timeline start = new Timeline(new KeyFrame(
                         Duration.millis(5000),
                         ae -> {
@@ -110,9 +101,6 @@ public class YouGoAwaySarah extends Application {
                         }));
                 start.play();
             }
-
-
-
 
             if (p1alive) {
                 score++;
@@ -136,54 +124,6 @@ public class YouGoAwaySarah extends Application {
         pane.requestFocus();
     }
 
-    public boolean isIntersect(Bounds p1Bounds, Bounds lineBounds) {
-        if (lineBounds.intersects(p1Bounds)) {
-            return true;
-        }
-        return false;
-    }
 }
 
-/*
-class drawLine1 extends Pane{
-    public drawLine1() {
-        Line line = new Line();
-        line.setStrokeDashOffset(5);
-        int direction = (int)(Math.random() * 2);
-        if(direction == 0){
-            line.setStartX(0);
-            line.setStartY(Math.random() * 500);
-            line.setEndX(500);
-            line.setEndY(Math.random() * 500);
-        }
-        else{
-            line.setStartX(Math.random() * 500);
-            line.setStartY(0);
-            line.setEndX(Math.random() * 500);
-            line.setEndY(500);
-        }
-    }
 
-}
-*/
-
-
-/*class lineline extends Pane{
-//    public lineline() {
-//        Line line = new Line();
-//        line.setStrokeDashOffset(5);
-//        int direction = (int)(Math.random() * 2);
-//        if(direction == 0){
-//            line.setStartX(0);
-//            line.setStartY(Math.random() * 500);
-//            line.setEndX(500);
-//            line.setEndY(Math.random() * 500);
-//        }
-//        else{
-//            line.setStartX(Math.random() * 500);
-//            line.setStartY(0);
-//            line.setEndX(Math.random() * 500);
-//            line.setEndY(500);
-//        }
-//    }
-//*/
