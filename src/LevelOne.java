@@ -54,7 +54,9 @@ public class LevelOne extends Application {
 
         while (p1alive) {
             pane.getChildren().add(p1);
+
             for (int i = 0; i < score; i++) {
+
                 Line line = new Line();
                 line.setStroke(Color.GRAY);
 
@@ -71,40 +73,60 @@ public class LevelOne extends Application {
                     line.setEndY(500);
                 }
 
-                Timeline timeline = new Timeline(new KeyFrame(
+                Timeline timeline2 = new Timeline(new KeyFrame(
                         Duration.millis(5000),
-                        ae -> {
-                            pane.getChildren().add(line);
-                            line.setStroke(Color.GRAY);
-                        }));
-                timeline.play();
-
-                Bounds lineBounds = line.getBoundsInParent();
+                        ae -> System.out.println("You cleared a level.")));
 
                 Timeline timeline1 = new Timeline(new KeyFrame(
                         Duration.millis(5000),
-                        ae -> line.setStroke(Color.RED)));
-                timeline1.play();
-
-                if (isIntersect(p1Bounds, lineBounds)) {
+                        ae -> {
+                            line.setStroke(Color.RED);
+                            timeline2.play();
+                        }));
+                Bounds lineBounds = line.getBoundsInParent();
+                if (isIntersect(p1, line)) {
                     p1alive = false;
                     break;
                 }
 
-                Timeline timeline2 = new Timeline(new KeyFrame(
+
+
+                Timeline timeline = new Timeline(new KeyFrame(
                         Duration.millis(5000),
-                        ae -> System.out.println("You cleared a level.")));
-                timeline2.play();
+                        ae -> {
+                            pane.getChildren().add(line);
+                            timeline1.play();
+                        }));
+
+
+
+
+
+
+                Timeline start = new Timeline(new KeyFrame(
+                        Duration.millis(5000),
+                        ae -> {
+                            timeline.play();
+                        }));
+                start.play();
             }
+
+
 
 
             if (p1alive) {
                 score++;
                 pane.getChildren().clear();
-            } else {
+                System.out.println("hi");
+            }
+            else if(!p1alive) {
                 Label ded = new Label("YOU GO AWAY U DIED");
+                System.out.println(p1alive);
                 pane.getChildren().add(ded);
                 break;
+            }
+            else{
+                System.out.println("wot");
             }
         }
 
@@ -116,8 +138,8 @@ public class LevelOne extends Application {
         pane.requestFocus();
     }
 
-    public boolean isIntersect(Bounds p1Bounds, Bounds lineBounds) {
-        if (lineBounds.intersects(p1Bounds)) {
+    public boolean isIntersect(Rectangle p1, Line line) {
+        if (p1.getBoundsInParent().intersects(line.getBoundsInParent())) {
             return true;
         }
         return false;
