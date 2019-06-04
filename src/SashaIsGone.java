@@ -67,11 +67,13 @@ public class SashaIsGone extends Application {
             for (int i = 0; i < score; i++) {
 
                 Line line = new Line();
-                line.setStroke(Color.WHITE);
 
                 Timeline timeline = new Timeline(new KeyFrame(
                         Duration.millis(5000),
-                   ae -> pane.getChildren().add(line)));
+                   ae -> {
+                            pane.getChildren().add(line);
+                            line.setStroke(Color.WHITE);
+                   }));
                         timeline.play();
 
                 Bounds lineBounds = line.getBoundsInParent();

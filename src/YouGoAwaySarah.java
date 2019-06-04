@@ -65,10 +65,10 @@ public class YouGoAwaySarah extends Application {
 //                    throw new InterruptedException();
 //                    // Clears interrupted status!
 //                }
-                Timeline timeline = new Timeline(new KeyFrame(
+                Timeline timeline2 = new Timeline(new KeyFrame(
                         Duration.millis(5000),
                         ae -> line.setStroke(Color.RED)));
-                timeline.play();
+                timeline2.play();
 
                 if (isIntersect(p1, line)) {
                     p1alive = false;
