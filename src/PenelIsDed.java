@@ -34,7 +34,7 @@ public class PenelIsDed extends Application {
 //            lineline laser = new lineline();
             Timeline timeline = new Timeline(new KeyFrame(
                     Duration.millis(5000),
-//                    ae -> System.out.println("hi")));
+                    ae -> System.out.println("hi")));
             timeline.play();
             for(int i = 0; i < score; i++) {
 
@@ -70,10 +70,13 @@ public class PenelIsDed extends Application {
 //                    throw new InterruptedException();
 //                    // Clears interrupted status!
 //                }
-                Timeline timeline = new Timeline(new KeyFrame(
+                Timeline yeet = new Timeline(new KeyFrame(
                         Duration.millis(5000),
-                        ae -> line.setStroke(Color.RED)));
-                timeline.play();
+                        ae -> {
+                            line.setStroke(Color.RED);
+
+                        }));
+                yeet.play();
 
                 if (isIntersect(p1, line)) {
                     p1alive = false;
