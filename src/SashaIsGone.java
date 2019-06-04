@@ -166,56 +166,67 @@ public class SashaIsGone extends Application {
 
             Timeline t1 = new Timeline(new KeyFrame(
                     Duration.millis(2000),
-                    ae -> {
-
-                    }));
+                    ae -> {}));
 
             pane.getChildren().add(line);
-            Bounds lineBounds = line.getBoundsInParent();
             int direction = (int) (Math.random() * 2);
             if (direction == 0) {
                 line.setStartX(0);
                 line.setStartY(Math.random() * 500);
                 line.setEndX(500);
                 line.setEndY(Math.random() * 500);
-            } else {
+            }
+            else {
                 line.setStartX(Math.random() * 500);
                 line.setStartY(0);
                 line.setEndX(Math.random() * 500);
                 line.setEndY(500);
             }
 
-            //        Timeline timeline = new Timeline(new KeyFrame(
-            //                Duration.millis(2000),
-            //                ae -> {
-            //                }));
-            //        timeline.play();
-            //
-            Timeline yeet = new Timeline(new KeyFrame(
-                    Duration.millis(2000),
+            Timeline timeline2 = new Timeline(new KeyFrame(
+                    Duration.millis(5000),
+                    ae -> System.out.println("You cleared a level.")));
+
+            Timeline timeline1 = new Timeline(new KeyFrame(
+                    Duration.millis(5000),
                     ae -> {
                         line.setStroke(Color.RED);
+                        timeline2.play();
                     }));
-            yeet.play();
 
             if (isIntersect(p1, line)) {
                 p1alive = false;
-
+                break;
             }
+
+
+            Timeline timeline = new Timeline(new KeyFrame(
+                    Duration.millis(5000),
+                    ae -> {
+                        pane.getChildren().add(line);
+                        timeline1.play();
+                    }));
+
+
+            Timeline start = new Timeline(new KeyFrame(
+                    Duration.millis(5000),
+                    ae -> {
+                        timeline.play();
+                    }));
+            start.play();
         }
 
         if(p1alive) {
             score++;
             pane.getChildren().clear();
         }
-        else {
-            Label ded = new Label("YOU GO AWAY U DED");
+        else if(!p1alive) {
+            Label ded = new Label("YOU GO AWAY U DIED");
             pane.getChildren().add(ded);
-
         }
-//
-
-
+        else {
+            System.out.println("wot");
+        }
 
 
         pane.setOnKeyPressed(e -> {
