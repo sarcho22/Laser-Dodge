@@ -73,7 +73,10 @@ public class LevelOne extends Application {
 
                 Timeline timeline = new Timeline(new KeyFrame(
                         Duration.millis(5000),
-                        ae -> pane.getChildren().add(line)));
+                        ae -> {
+                            pane.getChildren().add(line);
+                            line.setStroke(Color.GRAY);
+                        }));
                 timeline.play();
 
                 Bounds lineBounds = line.getBoundsInParent();
@@ -93,8 +96,6 @@ public class LevelOne extends Application {
                         ae -> System.out.println("You cleared a level.")));
                 timeline2.play();
             }
-
-
 
 
             if (p1alive) {
