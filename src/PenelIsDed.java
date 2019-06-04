@@ -43,8 +43,8 @@ public class PenelIsDed extends Application {
                 line.setStroke(Color.GRAY);
                 pane.getChildren().add(line);
                 Bounds lineBounds = line.getBoundsInParent();
-                int direction = (int)(Math.random() * 2);
-                if(direction == 0){
+                int direction1 = (int)(Math.random() * 2);
+                if(direction1 == 0){
                     line.setStartX(0);
                     line.setStartY(Math.random() * 500);
                     line.setEndX(500);

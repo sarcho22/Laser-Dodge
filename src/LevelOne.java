@@ -30,42 +30,42 @@ public class LevelOne extends Application {
         int score = 0;
         boolean p1alive = true;
 
-            Timeline timeline = new Timeline(new KeyFrame(
-                    Duration.millis(5000),
-                    ae -> System.out.println("hi")));
-            timeline.play();
 
+        Line line = new Line();
+        line.setStroke(Color.GRAY);
+        pane.getChildren().add(line);
+        Bounds lineBounds = line.getBoundsInParent();
+        int direction = (int)(Math.random() * 2);
+        if(direction == 0){
+            line.setStartX(0);
+            line.setStartY(Math.random() * 500);
+            line.setEndX(500);
+            line.setEndY(Math.random() * 500);
+        }
+        else{
+            line.setStartX(Math.random() * 500);
+            line.setStartY(0);
+            line.setEndX(Math.random() * 500);
+            line.setEndY(500);
+        }
 
-                Line line = new Line();
-                line.setStroke(Color.GRAY);
-                pane.getChildren().add(line);
-                Bounds lineBounds = line.getBoundsInParent();
-                int direction = (int)(Math.random() * 2);
-                if(direction == 0){
-                    line.setStartX(0);
-                    line.setStartY(Math.random() * 500);
-                    line.setEndX(500);
-                    line.setEndY(Math.random() * 500);
-                }
-                else{
-                    line.setStartX(Math.random() * 500);
-                    line.setStartY(0);
-                    line.setEndX(Math.random() * 500);
-                    line.setEndY(500);
-                }
+//        Timeline timeline = new Timeline(new KeyFrame(
+//                Duration.millis(2000),
+//                ae -> {
+//                }));
+//        timeline.play();
 //
-                Timeline yeet = new Timeline(new KeyFrame(
-                        Duration.millis(5000),
-                        ae -> {
-                            line.setStroke(Color.RED);
+        Timeline yeet = new Timeline(new KeyFrame(
+                Duration.millis(2000),
+                ae -> {
+                    line.setStroke(Color.RED);
+                }));
+        yeet.play();
 
-                        }));
-                yeet.play();
+        if (isIntersect(p1, line)) {
+            p1alive = false;
 
-                if (isIntersect(p1, line)) {
-                    p1alive = false;
-
-                }
+        }
 
             if(p1alive) {
                 score++;
