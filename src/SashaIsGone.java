@@ -19,38 +19,10 @@ public class SashaIsGone extends Application {
         Rectangle p1 = new Rectangle(0, 0, 20, 20);
         p1.setFill(Color.POWDERBLUE);
 
-        pane.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.RIGHT) {
-                if (p1.getX() + p1.getWidth() >= 500) {
-                    p1.setX(p1.getX());
-                } else {
-                    p1.setX(p1.getX() + 5);
-                }
-
-            } else if (e.getCode() == KeyCode.LEFT) {
-                if (p1.getX() <= 0) {
-                    p1.setX(p1.getX());
-                } else {
-                    p1.setX(p1.getX() - 5);
-                }
-            } else if (e.getCode() == KeyCode.DOWN) {
-                if (p1.getY() + p1.getHeight() >= 500) {
-                    p1.setY(p1.getY());
-                } else {
-                    p1.setY(p1.getY() + 5);
-                }
-            } else if (e.getCode() == KeyCode.UP) {
-                if (p1.getY() <= 0) {
-                    p1.setY(p1.getY());
-                } else {
-                    p1.setY(p1.getY() - 5);
-                }
-            }
-        });
-
         Rectangle r1 = new Rectangle(0, 0, 0, 0);
 
         EventHandler<ActionEvent> eventHandler = e -> {
+
             int score = 1;
             boolean p1alive = true;
 
@@ -75,11 +47,14 @@ public class SashaIsGone extends Application {
 
                     Timeline timeline2 = new Timeline(new KeyFrame(
                             Duration.millis(2000),
-                            ae -> System.out.println("You cleared a level.")));
+                            ae -> {
+                                System.out.println("You cleared a level");
+                            }));
 
                     Timeline yes = new Timeline(new KeyFrame(
                             Duration.millis(2000),
                             ae -> {
+                                pane.getChildren().remove(p1);
                                 pane.getChildren().clear();
                                 timeline2.play();
                             }));
@@ -99,7 +74,8 @@ public class SashaIsGone extends Application {
                                 for (double x = line.getStartX(); x <= line.getEndX(); x += 0.1) {
                                     double m = (line.getStartY() - line.getEndY()) / (line.getStartX() - line.getEndX());
                                     double b = line.getStartY() - (m * line.getStartX());
-                                    double y = (m * x) + b;
+
+                                    double y = ((m * x) + b);
                                     if (p1.contains(x, y)) {
                                         System.out.println("hi");
                                         intersects = true;
@@ -133,7 +109,7 @@ public class SashaIsGone extends Application {
                             }));
 
                     start.play();
-
+                    System.out.println(r1.getWidth());
                     if (r1.getWidth() == 10) {
                         p1alive = false;
                         break;
@@ -142,11 +118,42 @@ public class SashaIsGone extends Application {
                 }
                 score++;
             }
+
         };
 
         Timeline animation = new Timeline(
                 new KeyFrame(Duration.millis(500), eventHandler));
+        animation.setCycleCount(Timeline.INDEFINITE);
         animation.play();
+
+        pane.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.RIGHT) {
+                if (p1.getX() + p1.getWidth() >= 500) {
+                    p1.setX(p1.getX());
+                } else {
+                    p1.setX(p1.getX() + 5);
+                }
+
+            } else if (e.getCode() == KeyCode.LEFT) {
+                if (p1.getX() <= 0) {
+                    p1.setX(p1.getX());
+                } else {
+                    p1.setX(p1.getX() - 5);
+                }
+            } else if (e.getCode() == KeyCode.DOWN) {
+                if (p1.getY() + p1.getHeight() >= 500) {
+                    p1.setY(p1.getY());
+                } else {
+                    p1.setY(p1.getY() + 5);
+                }
+            } else if (e.getCode() == KeyCode.UP) {
+                if (p1.getY() <= 0) {
+                    p1.setY(p1.getY());
+                } else {
+                    p1.setY(p1.getY() - 5);
+                }
+            }
+        });
 
 
         Scene scene = new Scene(pane, 500, 500);
@@ -157,4 +164,3 @@ public class SashaIsGone extends Application {
     }
 
 }
-
