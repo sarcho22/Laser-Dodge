@@ -17,7 +17,7 @@ import javafx.util.Duration;
 
 import java.util.Iterator;
 
-public class PenelIsDed extends Application {
+public class AnotherFile extends Application {
     public void start(Stage primaryStage) {
         Pane pane = new Pane();
 
@@ -31,12 +31,10 @@ public class PenelIsDed extends Application {
 
             int score = 1;
             boolean p1alive = true;
-            r1.setHeight(r1.getHeight() + 1);
-            System.out.println(r1.getHeight());
 
             while (p1alive) {
                 pane.getChildren().add(p1);
-                for (int i = 0; i < (r1.getHeight() / 10); i++) {
+                for (int i = 0; i < score; i++) {
                     Line line = new Line();
                     line.setStroke(Color.GRAY);
 
@@ -85,6 +83,7 @@ public class PenelIsDed extends Application {
 
                                     double y = ((m * x) + b);
                                     if (p1.contains(x, y)) {
+                                        System.out.println("hi");
                                         intersects = true;
                                     }
                                 }
@@ -116,6 +115,7 @@ public class PenelIsDed extends Application {
                             }));
 
                     start.play();
+                    System.out.println(r1.getWidth());
                     if (r1.getWidth() == 10) {
                         p1alive = false;
                         break;
@@ -124,13 +124,13 @@ public class PenelIsDed extends Application {
                 }
                 score++;
             }
-            System.out.println(p1alive);
-            };
 
-            Timeline animation = new Timeline(
-                    new KeyFrame(Duration.millis(500), eventHandler));
-            animation.setCycleCount(Timeline.INDEFINITE);
-            animation.play();
+        };
+
+        Timeline animation = new Timeline(
+                new KeyFrame(Duration.millis(500), eventHandler));
+        animation.setCycleCount(Timeline.INDEFINITE);
+        animation.play();
 
         pane.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.RIGHT) {
@@ -162,12 +162,12 @@ public class PenelIsDed extends Application {
         });
 
 
-            Scene scene = new Scene(pane, 500, 500);
-            primaryStage.setScene(scene);
-            primaryStage.setTitle("Laser Dodge");
-            primaryStage.show();
-            pane.requestFocus();
-        }
+        Scene scene = new Scene(pane, 500, 500);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Laser Dodge");
+        primaryStage.show();
+        pane.requestFocus();
+    }
 
 }
 
