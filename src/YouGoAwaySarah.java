@@ -1,8 +1,6 @@
-import com.sun.javafx.geom.ShapePair;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
@@ -15,57 +13,50 @@ import javafx.animation.Timeline;
 import javafx.geometry.Bounds;
 import javafx.util.Duration;
 
-import java.util.Iterator;
-
 public class YouGoAwaySarah extends Application {
-    public Rectangle p1;
     public void start(Stage primaryStage) {
         Pane pane = new Pane();
 
+        Rectangle p1 = new Rectangle(0, 0, 20, 20);
+        p1.setFill(Color.POWDERBLUE);
+
+        pane.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.RIGHT) {
+                if (p1.getX() + p1.getWidth() >= 500) {
+                    p1.setX(p1.getX());
+                } else {
+                    p1.setX(p1.getX() + 5);
+                }
+
+            } else if (e.getCode() == KeyCode.LEFT) {
+                if (p1.getX() <= 0) {
+                    p1.setX(p1.getX());
+                } else {
+                    p1.setX(p1.getX() - 5);
+                }
+            } else if (e.getCode() == KeyCode.DOWN) {
+                if (p1.getY() + p1.getHeight() >= 500) {
+                    p1.setY(p1.getY());
+                } else {
+                    p1.setY(p1.getY() + 5);
+                }
+            } else if (e.getCode() == KeyCode.UP) {
+                if (p1.getY() <= 0) {
+                    p1.setY(p1.getY());
+                } else {
+                    p1.setY(p1.getY() - 5);
+                }
+            }
+        });
+
         Rectangle r1 = new Rectangle(0, 0, 0, 0);
 
-        EventHandler<ActionEvent> eventHandler = f -> {
-
+        EventHandler<ActionEvent> eventHandler = e -> {
             int score = 1;
             boolean p1alive = true;
 
             while (p1alive) {
-                if(p1 == null) {
-                    p1 = new Rectangle(0, 0, 20, 20);
-                    p1.setFill(Color.POWDERBLUE);
-                    Bounds p1Bounds = p1.getBoundsInParent();
-                }
-
-                pane.setOnKeyPressed(e -> {
-                    if (e.getCode() == KeyCode.RIGHT) {
-                        if (p1.getX() + p1.getWidth() >= 500) {
-                            p1.setX(p1.getX());
-                        } else {
-                            p1.setX(p1.getX() + 5);
-                        }
-
-                    } else if (e.getCode() == KeyCode.LEFT) {
-                        if (p1.getX() <= 0) {
-                            p1.setX(p1.getX());
-                        } else {
-                            p1.setX(p1.getX() - 5);
-                        }
-                    } else if (e.getCode() == KeyCode.DOWN) {
-                        if (p1.getY() + p1.getHeight() >= 500) {
-                            p1.setY(p1.getY());
-                        } else {
-                            p1.setY(p1.getY() + 5);
-                        }
-                    } else if (e.getCode() == KeyCode.UP) {
-                        if (p1.getY() <= 0) {
-                            p1.setY(p1.getY());
-                        } else {
-                            p1.setY(p1.getY() - 5);
-                        }
-                    }
-                });
                 pane.getChildren().add(p1);
-
                 for (int i = 0; i < score; i++) {
                     Line line = new Line();
                     line.setStroke(Color.GRAY);
@@ -91,7 +82,6 @@ public class YouGoAwaySarah extends Application {
                             Duration.millis(2000),
                             ae -> {
                                 pane.getChildren().clear();
-                                p1 = null;
                                 timeline2.play();
                             }));
 
