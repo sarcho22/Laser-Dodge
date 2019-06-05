@@ -18,6 +18,7 @@ import javafx.util.Duration;
 import java.util.Iterator;
 
 public class YouGoAwaySarah extends Application {
+    public Rectangle p1;
     public void start(Stage primaryStage) {
         Pane pane = new Pane();
 
@@ -29,9 +30,11 @@ public class YouGoAwaySarah extends Application {
             boolean p1alive = true;
 
             while (p1alive) {
-                Rectangle p1 = new Rectangle(0, 0, 20, 20);
+                if(p1 == null) {
+                    p1 = new Rectangle(0, 0, 20, 20);
                     p1.setFill(Color.POWDERBLUE);
                     Bounds p1Bounds = p1.getBoundsInParent();
+                }
 
                 pane.setOnKeyPressed(e -> {
                     if (e.getCode() == KeyCode.RIGHT) {
@@ -88,6 +91,7 @@ public class YouGoAwaySarah extends Application {
                             Duration.millis(2000),
                             ae -> {
                                 pane.getChildren().clear();
+                                p1 = null;
                                 timeline2.play();
                             }));
 

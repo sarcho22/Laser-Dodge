@@ -111,7 +111,7 @@ public class PenelIsDed extends Application {
                                         intersects = true;
                                     }
                                 }
-                                if (intersects) {
+                                if (!intersects) {
                                     yes.play();
                                 } else {
                                     no.play();
