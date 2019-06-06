@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
-
+//
 public class SashaIsGone extends Application {
     public void start(Stage primaryStage) {
         BorderPane borderPane = new BorderPane();
