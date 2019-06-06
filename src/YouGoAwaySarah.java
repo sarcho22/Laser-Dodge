@@ -14,7 +14,7 @@ import javafx.geometry.Bounds;
 import javafx.util.Duration;
 
 public class YouGoAwaySarah extends Application {
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IllegalArgumentException{
         Pane pane = new Pane();
 
         Rectangle p1 = new Rectangle(0, 0, 20, 20);
@@ -61,7 +61,7 @@ public class YouGoAwaySarah extends Application {
                 System.out.println(r1.getHeight());
                 //
                 pane.getChildren().add(p1);
-                for (int i = 0; i < r1.getHeight()/10; i++) {
+                for (int i = 0; i < r1.getHeight(); i++) {
                     Line line = new Line();
                     line.setStroke(Color.GRAY);
 
@@ -83,14 +83,14 @@ public class YouGoAwaySarah extends Application {
                             ae -> System.out.println("You cleared a level.")));
 
                     Timeline clear = new Timeline(new KeyFrame(
-                            Duration.millis(2000),
+                            Duration.millis(1000),
                             ae -> {
                                 pane.getChildren().clear();
-                                r1.setWidth(10);
+                                r1.setHeight(1);
                             }));
 
                     Timeline wait = new Timeline(new KeyFrame(
-                            Duration.millis(2000),
+                            Duration.millis(1000),
                             ae -> {
                                 pane.getChildren().clear();
                                 Label restart = new Label("Restarting the game now...");
@@ -160,7 +160,7 @@ public class YouGoAwaySarah extends Application {
         };
 
         Timeline animation = new Timeline(
-                new KeyFrame(Duration.millis(500), eventHandler));
+                new KeyFrame(Duration.millis(8701), eventHandler));
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.play();
 
