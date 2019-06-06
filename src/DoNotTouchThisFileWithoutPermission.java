@@ -58,7 +58,7 @@ public class DoNotTouchThisFileWithoutPermission extends Application {
 
             while (p1alive) {
                 score++;
-                System.out.println(score);
+                System.out.println(r1.getHeight());
                 //
                 pane.getChildren().add(p1);
                 for (int i = 0; i < r1.getHeight()/10; i++) {
@@ -86,7 +86,7 @@ public class DoNotTouchThisFileWithoutPermission extends Application {
                             Duration.millis(2000),
                             ae -> {
                                 pane.getChildren().clear();
-                                r1.setHeight(0);
+                                r1.setWidth(10);
                             }));
 
                     Timeline wait = new Timeline(new KeyFrame(
@@ -110,7 +110,7 @@ public class DoNotTouchThisFileWithoutPermission extends Application {
                             ae -> {
                                 Label ded = new Label("YOU GO AWAY U DIED");
                                 pane.getChildren().add(ded);
-                                r1.setWidth(10);
+                                r1.setHeight(0);
                                 wait.play();
                             }));
 
@@ -141,7 +141,7 @@ public class DoNotTouchThisFileWithoutPermission extends Application {
                             }));
 
                     Timeline timeline = new Timeline(new KeyFrame(
-                            Duration.millis(6000),
+                            Duration.millis(4000),
                             ae -> {
                                 pane.getChildren().add(line);
                                 timeline1.play();
@@ -165,6 +165,8 @@ public class DoNotTouchThisFileWithoutPermission extends Application {
         animation.play();
 
 
+
+
         Scene scene = new Scene(pane, 500, 500);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Laser Dodge");
@@ -173,3 +175,5 @@ public class DoNotTouchThisFileWithoutPermission extends Application {
     }
 
 }
+
+
