@@ -75,10 +75,9 @@ public class SashaIsGone extends Application {
             r1.setHeight(r1.getHeight() + 1);
 
             while (p1alive) {
-                labelScore.setText("Score: " + score);
-                levelName.setText("Level " + score);
+                labelScore.setText("Score: " + (r1.getHeight()-1));
+                levelName.setText("Level " + (r1.getHeight()));
                 score++;
-                System.out.println(r1.getHeight());
                 //
                 pane.getChildren().add(p1);
                 for (int i = 0; i < r1.getHeight(); i++) {
@@ -128,7 +127,7 @@ public class SashaIsGone extends Application {
                     Timeline no = new Timeline(new KeyFrame(
                             Duration.millis(1),
                             ae -> {
-                                status.setText("YOU GO AWAY YOU DED!");
+                                status.setText("YOU GO AWAY YOU DED");
                                 r1.setHeight(0);
                                 wait.play();
                             }));
