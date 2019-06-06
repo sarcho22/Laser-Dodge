@@ -4,18 +4,36 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.stage.Stage;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.geometry.Bounds;
 import javafx.util.Duration;
-
+//
 public class YouGoAwaySarah extends Application {
-    public void start(Stage primaryStage) throws IllegalArgumentException{
+    public void start(Stage primaryStage) {
+        BorderPane borderPane = new BorderPane();
         Pane pane = new Pane();
+        borderPane.setCenter(pane);
+        pane.prefWidthProperty().bind(borderPane.widthProperty());
+        pane.prefHeightProperty().bind(borderPane.heightProperty().divide(25).multiply(24));
+
+        GridPane gridPane = new GridPane();
+        borderPane.setTop(gridPane);
+        gridPane.prefWidthProperty().bind(borderPane.widthProperty());
+        gridPane.prefHeightProperty().bind(borderPane.heightProperty().divide(25));
+
+        Label levelName = new Label();
+        Label status = new Label("Status pending...");
+        Label labelScore = new Label();
+        gridPane.add(levelName, 0, 0);
+        gridPane.add(status, 1, 0);
+        gridPane.add(labelScore, 2, 0);
+        gridPane.setHgap(25);
 
         Rectangle p1 = new Rectangle(0, 0, 20, 20);
         p1.setFill(Color.POWDERBLUE);
@@ -57,6 +75,8 @@ public class YouGoAwaySarah extends Application {
             r1.setHeight(r1.getHeight() + 1);
 
             while (p1alive) {
+                labelScore.setText("Score: " + (int)(r1.getHeight()-1));
+                levelName.setText("Level " + (int)(r1.getHeight()));
                 score++;
                 //
                 pane.getChildren().add(p1);
@@ -81,34 +101,34 @@ public class YouGoAwaySarah extends Application {
                             Duration.millis(2000),
                             ae -> System.out.println("You cleared Level: " + (r1.getHeight()-1))));
 
-                    Timeline clear = new Timeline(new KeyFrame(
-                            Duration.millis(1000),
-                            ae -> {
-                                pane.getChildren().clear();
-                                r1.setHeight(1);
-                            }));
+//                    Timeline clear = new Timeline(new KeyFrame(
+//                            Duration.millis(1000),
+//                            ae -> {
+//                                pane.getChildren().clear();
+//                                r1.setHeight(1);
+//                            }));
 
                     Timeline wait = new Timeline(new KeyFrame(
-                            Duration.millis(1000),
+                            Duration.millis(2000),
                             ae -> {
                                 pane.getChildren().clear();
-                                Label restart = new Label("Restarting the game now...");
-                                pane.getChildren().add(restart);
-                                clear.play();
+                                status.setText("Restarting the game now... \\(OwO)/");
+//                                clear.play();
+                                r1.setHeight(1);
                             }));
 
                     Timeline yes = new Timeline(new KeyFrame(
                             Duration.millis(1),
                             ae -> {
                                 pane.getChildren().clear();
+                                status.setText("You cleared the level >:3");
                                 timeline2.play();
                             }));
 
                     Timeline no = new Timeline(new KeyFrame(
                             Duration.millis(1),
                             ae -> {
-                                Label ded = new Label("YOU GO AWAY U DIED");
-                                pane.getChildren().add(ded);
+                                status.setText("YOU GO AWAY YOU DED");
                                 r1.setHeight(0);
                                 wait.play();
                             }));
@@ -117,7 +137,7 @@ public class YouGoAwaySarah extends Application {
                             Duration.millis(200),
                             ae -> {
                                 boolean intersects = false;
-                                for (double x = line.getStartX(); x <= line.getEndX(); x += 0.1) {
+                                for (double x = line.getStartX(); x <= line.getEndX(); x += 0.01) {
                                     double m = (line.getStartY() - line.getEndY()) / (line.getStartX() - line.getEndX());
                                     double b = line.getStartY() - (m * line.getStartX());
                                     double y = (m * x) + b;
@@ -166,13 +186,10 @@ public class YouGoAwaySarah extends Application {
 
 
 
-        Scene scene = new Scene(pane, 500, 500);
+        Scene scene = new Scene(borderPane, 500, 500);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Laser Dodge");
         primaryStage.show();
         pane.requestFocus();
     }
-
 }
-
-
