@@ -58,7 +58,6 @@ public class YouGoAwaySarah extends Application {
 
             while (p1alive) {
                 score++;
-                System.out.println(r1.getHeight());
                 //
                 pane.getChildren().add(p1);
                 for (int i = 0; i < r1.getHeight(); i++) {
@@ -80,7 +79,7 @@ public class YouGoAwaySarah extends Application {
 
                     Timeline timeline2 = new Timeline(new KeyFrame(
                             Duration.millis(2000),
-                            ae -> System.out.println("You cleared a level.")));
+                            ae -> System.out.println("You cleared Level: " + r1.getHeight())));
 
                     Timeline clear = new Timeline(new KeyFrame(
                             Duration.millis(1000),
