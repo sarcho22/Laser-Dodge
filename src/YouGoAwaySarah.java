@@ -54,12 +54,14 @@ public class YouGoAwaySarah extends Application {
         EventHandler<ActionEvent> eventHandler = e -> {
             int score = 0;
             boolean p1alive = true;
+            r1.setHeight(r1.getHeight() + 1);
+
             while (p1alive) {
                 score++;
-                System.out.println(score);
+                System.out.println(r1.getHeight());
                 //
                 pane.getChildren().add(p1);
-                for (int i = 0; i < score; i++) {
+                for (int i = 0; i < r1.getHeight()/10; i++) {
                     Line line = new Line();
                     line.setStroke(Color.GRAY);
 
@@ -80,6 +82,22 @@ public class YouGoAwaySarah extends Application {
                             Duration.millis(2000),
                             ae -> System.out.println("You cleared a level.")));
 
+                    Timeline clear = new Timeline(new KeyFrame(
+                            Duration.millis(2000),
+                            ae -> {
+                                pane.getChildren().clear();
+                                r1.setWidth(10);
+                            }));
+
+                    Timeline wait = new Timeline(new KeyFrame(
+                            Duration.millis(2000),
+                            ae -> {
+                                pane.getChildren().clear();
+                                Label restart = new Label("Restarting the game now...");
+                                pane.getChildren().add(restart);
+                                clear.play();
+                            }));
+
                     Timeline yes = new Timeline(new KeyFrame(
                             Duration.millis(1),
                             ae -> {
@@ -92,7 +110,8 @@ public class YouGoAwaySarah extends Application {
                             ae -> {
                                 Label ded = new Label("YOU GO AWAY U DIED");
                                 pane.getChildren().add(ded);
-                                r1.setWidth(10);
+                                r1.setHeight(0);
+                                wait.play();
                             }));
 
                     Timeline check = new Timeline(new KeyFrame(
@@ -142,7 +161,10 @@ public class YouGoAwaySarah extends Application {
 
         Timeline animation = new Timeline(
                 new KeyFrame(Duration.millis(500), eventHandler));
+        animation.setCycleCount(Timeline.INDEFINITE);
         animation.play();
+
+
 
 
         Scene scene = new Scene(pane, 500, 500);
