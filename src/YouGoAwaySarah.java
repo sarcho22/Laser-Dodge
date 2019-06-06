@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
-//
+// maybe make a pacman type thing where there are dots and we need to get the dots as a challenge to increase score, also high score
 public class YouGoAwaySarah extends Application {
     public void start(Stage primaryStage) {
         BorderPane borderPane = new BorderPane();
