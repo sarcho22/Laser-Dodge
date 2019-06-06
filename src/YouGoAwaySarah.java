@@ -79,7 +79,7 @@ public class YouGoAwaySarah extends Application {
 
                     Timeline timeline2 = new Timeline(new KeyFrame(
                             Duration.millis(2000),
-                            ae -> System.out.println("You cleared Level: " + r1.getHeight())));
+                            ae -> System.out.println("You cleared Level: " + (r1.getHeight()-1))));
 
                     Timeline clear = new Timeline(new KeyFrame(
                             Duration.millis(1000),
