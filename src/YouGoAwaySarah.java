@@ -15,6 +15,7 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 // maybe make a pacman type thing where there are dots and we need to get the dots as a challenge to increase score, also high score
 public class YouGoAwaySarah extends Application {
+    public int eatenNumber = 0;
     public void start(Stage primaryStage) {
         BorderPane borderPane = new BorderPane();
         Pane pane = new Pane();
@@ -30,9 +31,11 @@ public class YouGoAwaySarah extends Application {
         Label levelName = new Label();
         Label status = new Label("Status pending...");
         Label labelScore = new Label();
+        Label eaten = new Label("Eaten: 0");
         gridPane.add(levelName, 0, 0);
         gridPane.add(status, 1, 0);
         gridPane.add(labelScore, 2, 0);
+        gridPane.add(eaten, 3, 0);
         gridPane.setHgap(25);
 
         Rectangle p1 = new Rectangle(0, 0, 20, 20);
@@ -70,27 +73,62 @@ public class YouGoAwaySarah extends Application {
         Rectangle r1 = new Rectangle(0, 0, 0, 0);
 
         EventHandler<ActionEvent> eventHandler = e -> {
-            int score = 0;
+
             boolean p1alive = true;
             r1.setHeight(r1.getHeight() + 1);
+
+            Circle eat = new Circle(Math.random()*500, Math.random()*500,10);
+            eat.setFill(Color.MEDIUMPURPLE);
+            eat.setStroke(Color.LIGHTBLUE);
+            pane.getChildren().add(eat);
 
             while (p1alive) {
                 labelScore.setText("Score: " + (int)(r1.getHeight()-1));
                 levelName.setText("Level " + (int)(r1.getHeight()));
-                score++;
                 //
                 pane.getChildren().add(p1);
                 for (int i = 0; i < r1.getHeight(); i++) {
                     Line line = new Line();
                     line.setStroke(Color.GRAY);
 
-                    int direction = (int) (Math.random() * 2);
-                    if (direction == 0) {
+                    int direction = (int) (Math.random() * 10);
+                    if (direction == 0||direction == 7||direction == 8) {
                         line.setStartX(0);
                         line.setStartY(Math.random() * 500);
                         line.setEndX(500);
                         line.setEndY(Math.random() * 500);
-                    } else {
+                    }
+                    else if (direction == 2){
+                        line.setStartX(0);
+                        line.setStartY(Math.random() * 500);
+                        line.setEndX(Math.random() * 500);
+                        line.setEndY(500);
+                    }
+                    else if (direction == 3) {
+                        line.setStartX(500);
+                        line.setStartY(Math.random() * 500);
+                        line.setEndX(Math.random() * 500);
+                        line.setEndY(0);
+                    }
+                    else if (direction == 4) {
+                        line.setStartX(0);
+                        line.setStartY(Math.random() * 500);
+                        line.setEndX(Math.random() * 500);
+                        line.setEndY(0);
+                    }
+                    else if (direction == 5) {
+                        line.setStartX(500);
+                        line.setStartY(Math.random() * 500);
+                        line.setEndX(Math.random() * 500);
+                        line.setEndY(500);
+                    }
+                    else if (direction == 9 || direction == 10){
+                        line.setStartX(Math.random() * 500);
+                        line.setStartY(0);
+                        line.setEndX(Math.random() * 500);
+                        line.setEndY(500);
+                    }
+                    else {
                         line.setStartX(Math.random() * 500);
                         line.setStartY(0);
                         line.setEndX(Math.random() * 500);
@@ -98,7 +136,7 @@ public class YouGoAwaySarah extends Application {
                     }
 
                     Timeline timeline2 = new Timeline(new KeyFrame(
-                            Duration.millis(2000),
+                            Duration.millis(1000),
                             ae -> System.out.println("You cleared Level: " + (r1.getHeight()-1))));
 
 //                    Timeline clear = new Timeline(new KeyFrame(
@@ -108,17 +146,61 @@ public class YouGoAwaySarah extends Application {
 //                                r1.setHeight(1);
 //                            }));
 
+                    Timeline eating = new Timeline(new KeyFrame(
+                            Duration.millis(0),
+                            ae -> {
+                                boolean boolEaten = false;
+                                if(p1.contains(eat.getCenterX()-eat.getRadius(), eat.getCenterY())) {
+                                    boolEaten = true;
+                                }
+                                if(p1.contains(eat.getCenterX()+eat.getRadius(), eat.getCenterY())) {
+                                    boolEaten = true;
+                                }
+                                for (double x = eat.getCenterX()-eat.getRadius()+0.01; x <= eat.getCenterX()+eat.getRadius()-0.01; x += 0.01) {
+                                    double y = Math.sqrt(Math.pow(x - eat.getCenterX(), 2) - Math.pow(eat.getRadius(), 2))+ eat.getCenterY();
+                                    double y2 = 0-y;
+                                    if (p1.contains(x, y)) {
+                                        boolEaten = true;
+                                    }
+                                    if (p1.contains(x, y2)) {
+                                        boolEaten = true;
+                                    }
+                                }
+                                if(boolEaten) {
+                                    eatenNumber++;
+                                    eaten.setText("Eaten: " + eatenNumber);
+                                    pane.getChildren().remove(eat);
+                                }
+                                System.out.println(eatenNumber);
+                            }));
+                    eating.setCycleCount(Timeline.INDEFINITE);
+                    eating.play();
+
+
+                    // (x - x-coordinate)^2+(y - y-coordinate)^2=radius^2
+                    // y-coordinate +  sqare root this side (x - x-coordinate)^2 -radius ^2 = y
+
+                    Timeline pending = new Timeline(new KeyFrame(
+                            Duration.millis(500),
+                            ae -> {
+                                pane.getChildren().clear();
+                                eaten.setText("Eaten: 0");
+                                eatenNumber = 0;
+                                status.setText("Status pending...");
+                            }));
+
                     Timeline wait = new Timeline(new KeyFrame(
-                            Duration.millis(2000),
+                            Duration.millis(500),
                             ae -> {
                                 pane.getChildren().clear();
                                 status.setText("Restarting the game now... \\(OwO)/");
 //                                clear.play();
-                                r1.setHeight(1);
+                                r1.setHeight(0);
+                                pending.play();
                             }));
 
                     Timeline yes = new Timeline(new KeyFrame(
-                            Duration.millis(1),
+                            Duration.millis(5),
                             ae -> {
                                 pane.getChildren().clear();
                                 status.setText("You cleared the level >:3");
@@ -126,7 +208,7 @@ public class YouGoAwaySarah extends Application {
                             }));
 
                     Timeline no = new Timeline(new KeyFrame(
-                            Duration.millis(1),
+                            Duration.millis(5),
                             ae -> {
                                 status.setText("YOU GO AWAY YOU DED");
                                 r1.setHeight(0);
@@ -153,14 +235,14 @@ public class YouGoAwaySarah extends Application {
                             }));
 
                     Timeline timeline1 = new Timeline(new KeyFrame(
-                            Duration.millis(2500),
+                            Duration.millis(1500),
                             ae -> {
                                 line.setStroke(Color.RED);
                                 check.play();
                             }));
 
                     Timeline timeline = new Timeline(new KeyFrame(
-                            Duration.millis(4000),
+                            Duration.millis(1500),
                             ae -> {
                                 pane.getChildren().add(line);
                                 timeline1.play();
@@ -179,7 +261,7 @@ public class YouGoAwaySarah extends Application {
         };
 
         Timeline animation = new Timeline(
-                new KeyFrame(Duration.millis(8701), eventHandler));
+                new KeyFrame(Duration.millis(5205), eventHandler));
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.play();
 
