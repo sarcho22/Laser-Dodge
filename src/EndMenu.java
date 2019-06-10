@@ -1,4 +1,4 @@
-import javafx.application.Application;
+/*import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -33,22 +33,22 @@ public class EndMenu extends Application {
         borderPane.setCenter(hBox3);
         hBox2.setSpacing(10);
 
-        Label credits = new Label("Made by GoAway, IsGone, and JustDED");
-        credits.setFont(new Font("Cambria", 20));
-        Label gameTitle = new Label("\n\nLaser Dodge");
+        Label gameTitle = new Label("\n\nLeader Board");
         gameTitle.setFont(new Font("Cambria", 50));
-        Button play = new Button("Play");
-        play.setFont(new Font("Cambria", 40));
-        Button help = new Button("Help");
-        help.setFont(new Font("Cambria", 40));
+        Button restart = new Button("Restart");
+        restart.setFont(new Font("Cambria", 40));
         Label name = new Label("Enter Name: ");
         name.setFont(new Font("Cambria", 20));
         TextField nameEntry = new TextField();
 
-        hBox1.getChildren().add(credits);
-        hBox.getChildren().add(gameTitle);
-        hBox2.getChildren().add(play);
-        hBox2.getChildren().add(help);
+        for (int i = 0; i < playerNuber; i++){
+            Label resultLine = new Label("\n" + playerName + "\t" + playerScore);
+            resultLine.setFont(new Font("Cambria", 20));
+            hBox.getChildren().add(resultLine);
+        }
+
+        hBox1.getChildren().add(gameTitle);
+        hBox2.getChildren().add(restart);
         hBox3.getChildren().add(name);
         hBox3.getChildren().add(nameEntry);
         hBox.setAlignment(Pos.CENTER);
@@ -71,3 +71,4 @@ public class EndMenu extends Application {
         borderPane.requestFocus();
     }
 }
+*/
