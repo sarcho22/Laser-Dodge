@@ -13,6 +13,9 @@ import javafx.stage.Stage;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+
+import java.sql.Time;
+
 // maybe make a pacman type thing where there are dots and we need to get the dots as a challenge to increase score, also high score
 public class YouGoAwaySarah extends Application {
     public int eatenNumber = 0;
@@ -147,22 +150,31 @@ public class YouGoAwaySarah extends Application {
 //                            }));
 
                     Timeline eating = new Timeline(new KeyFrame(
-                            Duration.millis(0),
+                            Duration.millis(0.000000001),
                             ae -> {
                                 boolean boolEaten = false;
+                                System.out.println("hi");
                                 if(p1.contains(eat.getCenterX()-eat.getRadius(), eat.getCenterY())) {
                                     boolEaten = true;
                                 }
                                 if(p1.contains(eat.getCenterX()+eat.getRadius(), eat.getCenterY())) {
                                     boolEaten = true;
                                 }
-                                for (double x = eat.getCenterX()-eat.getRadius()+0.01; x <= eat.getCenterX()+eat.getRadius()-0.01; x += 0.01) {
-                                    double y = Math.sqrt(Math.pow(x - eat.getCenterX(), 2) - Math.pow(eat.getRadius(), 2))+ eat.getCenterY();
-                                    double y2 = 0-y;
+//                                for (double x = eat.getCenterX()-eat.getRadius()+0.01; x <= eat.getCenterX()+eat.getRadius()-0.01; x += 0.01) {
+//                                    double y = Math.sqrt(Math.pow(x - eat.getCenterX(), 2) - Math.pow(eat.getRadius(), 2))+ eat.getCenterY();
+//
+//                                    double y2 = eat.getCenterY()-y;
+//                                    if (p1.contains(x, y)) {
+//                                        boolEaten = true;
+//                                    }
+//                                    if (p1.contains(x, y2)) {
+//                                        boolEaten = true;
+//                                    }
+//                                }
+                                for (double t = 0; t < 360; t++) {
+                                    double x = (eat.getRadius() * Math.cos(t)) + eat.getCenterX();
+                                    double y = (eat.getRadius() * Math.sin(t)) + eat.getCenterY();
                                     if (p1.contains(x, y)) {
-                                        boolEaten = true;
-                                    }
-                                    if (p1.contains(x, y2)) {
                                         boolEaten = true;
                                     }
                                 }
@@ -173,10 +185,9 @@ public class YouGoAwaySarah extends Application {
                                 }
                                 System.out.println(eatenNumber);
                             }));
+
                     eating.setCycleCount(Timeline.INDEFINITE);
                     eating.play();
-
-
                     // (x - x-coordinate)^2+(y - y-coordinate)^2=radius^2
                     // y-coordinate +  sqare root this side (x - x-coordinate)^2 -radius ^2 = y
 
@@ -245,9 +256,9 @@ public class YouGoAwaySarah extends Application {
                             Duration.millis(1500),
                             ae -> {
                                 pane.getChildren().add(line);
+                                eating.play();
                                 timeline1.play();
                             }));
-
                     timeline.play();
 
                     if (r1.getWidth() == 10) {
