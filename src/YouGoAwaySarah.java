@@ -80,7 +80,7 @@ public class YouGoAwaySarah extends Application {
             boolean p1alive = true;
             r1.setHeight(r1.getHeight() + 1);
 
-            Circle eat = new Circle(Math.random()*500, Math.random()*500,10);
+            Circle eat = new Circle((Math.random()*480)+10, Math.random()*490,10);
             eat.setFill(Color.MEDIUMPURPLE);
             eat.setStroke(Color.LIGHTBLUE);
             pane.getChildren().add(eat);
