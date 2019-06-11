@@ -161,16 +161,23 @@ public class AttemptAtFinalProject extends Application{
         Label levelName = new Label();
         Label status = new Label("Status pending...");
         Label labelScore = new Label();
-        Button terminate = new Button("View Results");
+        //Button terminate = new Button("View Results");
         gridPane.add(levelName, 0, 0);
         gridPane.add(status, 1, 0);
         gridPane.add(labelScore, 2, 0);
-        gridPane.add(terminate, 3, 0);
+        //gridPane.add(terminate, 3, 0);
         gridPane.setHgap(25);
 
         Rectangle p1 = new Rectangle(0, 0, 20, 20);
         p1.setFill(Color.POWDERBLUE);
-
+/*
+        terminate.setOnMouseClicked(a -> {
+            playStage.close();
+            //playerScores.add(score);
+            Stage endStage = new Stage();
+            end(endStage);
+        });
+*/
         pane.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.RIGHT) {
                 if (p1.getX() + p1.getWidth() >= 500) {
@@ -263,13 +270,6 @@ public class AttemptAtFinalProject extends Application{
                             Duration.millis(1000),
                             ae -> System.out.println("You cleared Level: " + (r1.getHeight()-1))));
 
-//                    Timeline clear = new Timeline(new KeyFrame(
-//                            Duration.millis(1000),
-//                            ae -> {
-//                                pane.getChildren().clear();
-//                                r1.setHeight(1);
-//                            }));
-
                     Timeline pending = new Timeline(new KeyFrame(
                             Duration.millis(500),
                             ae -> {
@@ -282,7 +282,6 @@ public class AttemptAtFinalProject extends Application{
                             ae -> {
                                 pane.getChildren().clear();
                                 status.setText("Restarting the game now... \\(OwO)/");
-//                                clear.play();
                                 r1.setHeight(0);
                                 pending.play();
                             }));
@@ -342,9 +341,7 @@ public class AttemptAtFinalProject extends Application{
                         p1alive = false;
                         break;
                     }
-
                 }
-
             }
         };
 
@@ -352,13 +349,6 @@ public class AttemptAtFinalProject extends Application{
                 new KeyFrame(Duration.millis(5205), eventHandler));
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.play();
-
-        terminate.setOnAction(e -> {
-            playStage.close();
-            //playerScores.add(score);
-            Stage endStage = new Stage();
-            end(endStage);
-        });
 
         Scene scene = new Scene(borderPane, 500, 500);
         playStage.setScene(scene);
