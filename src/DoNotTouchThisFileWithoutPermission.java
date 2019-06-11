@@ -13,8 +13,12 @@ import javafx.stage.Stage;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+
+import java.sql.Time;
+
 // maybe make a pacman type thing where there are dots and we need to get the dots as a challenge to increase score, also high score
 public class DoNotTouchThisFileWithoutPermission extends Application {
+    public int eatenNumber = 0;
     public void start(Stage primaryStage) {
         BorderPane borderPane = new BorderPane();
         Pane pane = new Pane();
@@ -30,9 +34,11 @@ public class DoNotTouchThisFileWithoutPermission extends Application {
         Label levelName = new Label();
         Label status = new Label("Status pending...");
         Label labelScore = new Label();
+        Label eaten = new Label("Eaten: 0");
         gridPane.add(levelName, 0, 0);
         gridPane.add(status, 1, 0);
         gridPane.add(labelScore, 2, 0);
+        gridPane.add(eaten, 3, 0);
         gridPane.setHgap(25);
 
         Rectangle p1 = new Rectangle(0, 0, 20, 20);
@@ -53,7 +59,7 @@ public class DoNotTouchThisFileWithoutPermission extends Application {
                     p1.setX(p1.getX() - 5);
                 }
             } else if (e.getCode() == KeyCode.DOWN) {
-                if (p1.getY() + p1.getHeight() >= 500) {
+                if (p1.getY() + p1.getHeight() >=480) {
                     p1.setY(p1.getY());
                 } else {
                     p1.setY(p1.getY() + 5);
@@ -70,8 +76,14 @@ public class DoNotTouchThisFileWithoutPermission extends Application {
         Rectangle r1 = new Rectangle(0, 0, 0, 0);
 
         EventHandler<ActionEvent> eventHandler = e -> {
+
             boolean p1alive = true;
             r1.setHeight(r1.getHeight() + 1);
+
+            Circle eat = new Circle((Math.random()*480)+10, Math.random()*490,10);
+            eat.setFill(Color.MEDIUMPURPLE);
+            eat.setStroke(Color.LIGHTBLUE);
+            pane.getChildren().add(eat);
 
             while (p1alive) {
                 labelScore.setText("Score: " + (int)(r1.getHeight()-1));
@@ -137,10 +149,56 @@ public class DoNotTouchThisFileWithoutPermission extends Application {
 //                                r1.setHeight(1);
 //                            }));
 
+                    Timeline eating = new Timeline(new KeyFrame(
+                            Duration.millis(50),
+                            ae -> {
+                                boolean boolEaten = false;
+                                if(p1.contains(eat.getCenterX()-eat.getRadius(), eat.getCenterY())) {
+                                    boolEaten = true;
+                                }
+                                if(p1.contains(eat.getCenterX()+eat.getRadius(), eat.getCenterY())) {
+                                    boolEaten = true;
+                                }
+//                                for (double x = eat.getCenterX()-eat.getRadius()+0.01; x <= eat.getCenterX()+eat.getRadius()-0.01; x += 0.01) {
+//                                    double y = Math.sqrt(Math.pow(x - eat.getCenterX(), 2) - Math.pow(eat.getRadius(), 2))+ eat.getCenterY();
+//
+//                                    double y2 = eat.getCenterY()-y;
+//                                    if (p1.contains(x, y)) {
+//                                        boolEaten = true;
+//                                    }
+//                                    if (p1.contains(x, y2)) {
+//                                        boolEaten = true;
+//                                    }
+//                                }
+////                                for (double t = 0; t < 360; t++) {
+//                                    double x = (eat.getRadius() * Math.cos(t)) + eat.getCenterX();
+//                                    double y = (eat.getRadius() * Math.sin(t)) + eat.getCenterY();
+//                                    if (p1.contains(x, y)) {
+//                                        boolEaten = true;
+//                                    }
+//                                }
+                                if(boolEaten) {
+                                    eatenNumber++;
+                                    eaten.setText("Eaten: " + eatenNumber);
+                                    eat.setRadius(0);
+                                    eat.setCenterX(0);
+                                    eat.setCenterY(0);
+                                    pane.getChildren().remove(eat);
+                                }
+                            }));
+
+                    eating.setCycleCount(Timeline.INDEFINITE);
+                    eating.play();
+
+                    // (x - x-coordinate)^2+(y - y-coordinate)^2=radius^2
+                    // y-coordinate +  sqare root this side (x - x-coordinate)^2 -radius ^2 = y
+
                     Timeline pending = new Timeline(new KeyFrame(
                             Duration.millis(500),
                             ae -> {
                                 pane.getChildren().clear();
+                                eaten.setText("Eaten: 0");
+                                eatenNumber = 0;
                                 status.setText("Status pending...");
                             }));
 
@@ -202,7 +260,6 @@ public class DoNotTouchThisFileWithoutPermission extends Application {
                                 pane.getChildren().add(line);
                                 timeline1.play();
                             }));
-
                     timeline.play();
 
                     if (r1.getWidth() == 10) {
