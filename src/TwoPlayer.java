@@ -15,6 +15,14 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 
 public class TwoPlayer extends Application {
+    public boolean p1left = false;
+    public boolean p2right = false;
+    public boolean p1up = false;
+    public boolean p1down = false;
+    public boolean p2left = false;
+    public boolean p2down = false;
+    public boolean p2up = false;
+    public boolean p1right = false;
     public void start(Stage primaryStage) {
         BorderPane borderPane = new BorderPane();
         Pane pane = new Pane();
@@ -40,16 +48,6 @@ public class TwoPlayer extends Application {
 
         Rectangle p2 = new Rectangle(480, 240, 20, 20);
         p2.setFill(Color.ORANGE);
-
-        //keys
-        boolean p1left = false;
-        boolean p1right = false;
-        boolean p1up = false;
-        boolean p1down = false;
-        boolean p2right = false;
-        boolean p2left = false;
-        boolean p2down = false;
-        boolean p2up = false;
 
         pane.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.RIGHT) {
