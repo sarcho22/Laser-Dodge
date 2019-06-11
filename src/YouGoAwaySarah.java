@@ -181,8 +181,8 @@ public class YouGoAwaySarah extends Application {
                                     eatenNumber++;
                                     eaten.setText("Eaten: " + eatenNumber);
                                     eat.setRadius(0);
-                                    eat.setCenterX(0);
-                                    eat.setCenterY(0);
+                                    eat.setCenterX(1000);
+                                    eat.setCenterY(1000);
                                     pane.getChildren().remove(eat);
                                 }
                             }));
