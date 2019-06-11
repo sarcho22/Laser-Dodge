@@ -75,7 +75,8 @@ public class AttemptAtFinalProject extends Application{
             menuStage.close();
             Stage playStage = new Stage();
             game(playStage);
-            playerScores.add(nameEntry.getText());
+            //playerScores.add(0, nameEntry.getText())
+            //playerScores.add(nameEntry.getText());
         });
 
         help.setOnAction(e -> {
@@ -396,13 +397,13 @@ public class AttemptAtFinalProject extends Application{
         Label name = new Label("Enter Name: ");
         name.setFont(new Font("Cambria", 20));
         TextField nameEntry = new TextField();
-
-//        for (int i = 0; i < playerNuber; i++){
-//            Label resultLine = new Label("\n" + playerName + "\t" + playerScore);
-//            resultLine.setFont(new Font("Cambria", 20));
-//            hBox.getChildren().add(resultLine);
-//        }
-
+/*
+        for (int i = 0; i < playerScores.size(); i++){
+            Label resultLine = new Label("\n" + playerScores.get(i) + "\t" + "points");
+            resultLine.setFont(new Font("Cambria", 20));
+            hBox.getChildren().add(resultLine);
+        }
+*/
         hBox1.getChildren().add(gameTitle);
         hBox2.getChildren().add(restart);
         hBox2.getChildren().add(exit);
@@ -423,6 +424,7 @@ public class AttemptAtFinalProject extends Application{
         exit.setOnAction(e -> {
             endStage.close();
         });
+
 
         Scene scene = new Scene(borderPane, 500, 500);
         endStage.setScene(scene);
