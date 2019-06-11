@@ -14,11 +14,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
-import java.sql.Time;
-
-// maybe make a pacman type thing where there are dots and we need to get the dots as a challenge to increase score, also high score
-public class DoNotTouchThisFileWithoutPermission extends Application {
-    public int eatenNumber = 0;
+public class TwoPlayer extends Application {
     public void start(Stage primaryStage) {
         BorderPane borderPane = new BorderPane();
         Pane pane = new Pane();
@@ -34,15 +30,16 @@ public class DoNotTouchThisFileWithoutPermission extends Application {
         Label levelName = new Label();
         Label status = new Label("Status pending...");
         Label labelScore = new Label();
-        Label eaten = new Label("Eaten: 0");
         gridPane.add(levelName, 0, 0);
         gridPane.add(status, 1, 0);
         gridPane.add(labelScore, 2, 0);
-        gridPane.add(eaten, 3, 0);
         gridPane.setHgap(25);
 
-        Rectangle p1 = new Rectangle(0, 0, 20, 20);
+        Rectangle p1 = new Rectangle(0, 240, 20, 20);
         p1.setFill(Color.POWDERBLUE);
+
+        Rectangle p2 = new Rectangle(480, 240, 20, 20);
+        p2.setFill(Color.ALICEBLUE);
 
         pane.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.RIGHT) {
@@ -59,7 +56,7 @@ public class DoNotTouchThisFileWithoutPermission extends Application {
                     p1.setX(p1.getX() - 5);
                 }
             } else if (e.getCode() == KeyCode.DOWN) {
-                if (p1.getY() + p1.getHeight() >=480) {
+                if (p1.getY() + p1.getHeight() >= 500) {
                     p1.setY(p1.getY());
                 } else {
                     p1.setY(p1.getY() + 5);
@@ -71,25 +68,48 @@ public class DoNotTouchThisFileWithoutPermission extends Application {
                     p1.setY(p1.getY() - 5);
                 }
             }
+            if (e.getText().equals("d")) {
+                if (p2.getX() + p2.getWidth() >= 500) {
+                    p2.setX(p2.getX());
+                } else {
+                    p2.setX(p2.getX() + 5);
+                }
+
+            } else if (e.getText().equals("a")) {
+                if (p2.getX() <= 0) {
+                    p2.setX(p2.getX());
+                } else {
+                    p2.setX(p2.getX() - 5);
+                }
+            } else if (e.getText().equals("s")) {
+                if (p2.getY() + p2.getHeight() >= 500) {
+                    p2.setY(p2.getY());
+                } else {
+                    p2.setY(p2.getY() + 5);
+                }
+            } else if (e.getText().equals("w")) {
+                if (p2.getY() <= 0) {
+                    p2.setY(p2.getY());
+                } else {
+                    p2.setY(p2.getY() - 5);
+                }
+            }
         });
 
         Rectangle r1 = new Rectangle(0, 0, 0, 0);
 
         EventHandler<ActionEvent> eventHandler = e -> {
-
             boolean p1alive = true;
+            boolean p2alive = true;
             r1.setHeight(r1.getHeight() + 1);
 
-            Circle eat = new Circle((Math.random()*480)+10, Math.random()*490,10);
-            eat.setFill(Color.MEDIUMPURPLE);
-            eat.setStroke(Color.LIGHTBLUE);
-            pane.getChildren().add(eat);
-
-            while (p1alive) {
+            while (p1alive && p2alive) {
                 labelScore.setText("Score: " + (int)(r1.getHeight()-1));
                 levelName.setText("Level " + (int)(r1.getHeight()));
                 //
                 pane.getChildren().add(p1);
+                pane.getChildren().add(p2);
+
                 for (int i = 0; i < r1.getHeight(); i++) {
                     Line line = new Line();
                     line.setStroke(Color.GRAY);
@@ -149,56 +169,10 @@ public class DoNotTouchThisFileWithoutPermission extends Application {
 //                                r1.setHeight(1);
 //                            }));
 
-                    Timeline eating = new Timeline(new KeyFrame(
-                            Duration.millis(50),
-                            ae -> {
-                                boolean boolEaten = false;
-                                if(p1.contains(eat.getCenterX()-eat.getRadius(), eat.getCenterY())) {
-                                    boolEaten = true;
-                                }
-                                if(p1.contains(eat.getCenterX()+eat.getRadius(), eat.getCenterY())) {
-                                    boolEaten = true;
-                                }
-//                                for (double x = eat.getCenterX()-eat.getRadius()+0.01; x <= eat.getCenterX()+eat.getRadius()-0.01; x += 0.01) {
-//                                    double y = Math.sqrt(Math.pow(x - eat.getCenterX(), 2) - Math.pow(eat.getRadius(), 2))+ eat.getCenterY();
-//
-//                                    double y2 = eat.getCenterY()-y;
-//                                    if (p1.contains(x, y)) {
-//                                        boolEaten = true;
-//                                    }
-//                                    if (p1.contains(x, y2)) {
-//                                        boolEaten = true;
-//                                    }
-//                                }
-////                                for (double t = 0; t < 360; t++) {
-//                                    double x = (eat.getRadius() * Math.cos(t)) + eat.getCenterX();
-//                                    double y = (eat.getRadius() * Math.sin(t)) + eat.getCenterY();
-//                                    if (p1.contains(x, y)) {
-//                                        boolEaten = true;
-//                                    }
-//                                }
-                                if(boolEaten) {
-                                    eatenNumber++;
-                                    eaten.setText("Eaten: " + eatenNumber);
-                                    eat.setRadius(0);
-                                    eat.setCenterX(1000);
-                                    eat.setCenterY(1000);
-                                    pane.getChildren().remove(eat);
-                                }
-                            }));
-
-                    eating.setCycleCount(Timeline.INDEFINITE);
-                    eating.play();
-
-                    // (x - x-coordinate)^2+(y - y-coordinate)^2=radius^2
-                    // y-coordinate +  sqare root this side (x - x-coordinate)^2 -radius ^2 = y
-
                     Timeline pending = new Timeline(new KeyFrame(
                             Duration.millis(500),
                             ae -> {
                                 pane.getChildren().clear();
-                                eaten.setText("Eaten: 0");
-                                eatenNumber = 0;
                                 status.setText("Status pending...");
                             }));
 
@@ -240,6 +214,14 @@ public class DoNotTouchThisFileWithoutPermission extends Application {
                                         intersects = true;
                                     }
                                 }
+                                for (double x = line.getStartX(); x <= line.getEndX(); x += 0.01) {
+                                    double m = (line.getStartY() - line.getEndY()) / (line.getStartX() - line.getEndX());
+                                    double b = line.getStartY() - (m * line.getStartX());
+                                    double y = (m * x) + b;
+                                    if (p2.contains(x, y)) {
+                                        intersects = true;
+                                    }
+                                }
                                 if (!intersects) {
                                     yes.play();
                                 } else {
@@ -260,6 +242,7 @@ public class DoNotTouchThisFileWithoutPermission extends Application {
                                 pane.getChildren().add(line);
                                 timeline1.play();
                             }));
+
                     timeline.play();
 
                     if (r1.getWidth() == 10) {
