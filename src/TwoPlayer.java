@@ -39,7 +39,17 @@ public class TwoPlayer extends Application {
         p1.setFill(Color.POWDERBLUE);
 
         Rectangle p2 = new Rectangle(480, 240, 20, 20);
-        p2.setFill(Color.ALICEBLUE);
+        p2.setFill(Color.ORANGE);
+
+        //keys
+        boolean p1left = false;
+        boolean p1right = false;
+        boolean p1up = false;
+        boolean p1down = false;
+        boolean p2right = false;
+        boolean p2left = false;
+        boolean p2down = false;
+        boolean p2up = false;
 
         pane.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.RIGHT) {
@@ -161,13 +171,6 @@ public class TwoPlayer extends Application {
                     Timeline timeline2 = new Timeline(new KeyFrame(
                             Duration.millis(1000),
                             ae -> System.out.println("You cleared Level: " + (r1.getHeight()-1))));
-
-//                    Timeline clear = new Timeline(new KeyFrame(
-//                            Duration.millis(1000),
-//                            ae -> {
-//                                pane.getChildren().clear();
-//                                r1.setHeight(1);
-//                            }));
 
                     Timeline pending = new Timeline(new KeyFrame(
                             Duration.millis(500),
