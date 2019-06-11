@@ -14,6 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 
 public class AttemptAtFinalProject extends Application{
     public ArrayList playerScores;
+    public int eatenNumber = 0;
     public void start(Stage menuStage){
         BorderPane borderPane = new BorderPane();
         Rectangle bg = new Rectangle();
@@ -161,10 +163,12 @@ public class AttemptAtFinalProject extends Application{
         Label levelName = new Label();
         Label status = new Label("Status pending...");
         Label labelScore = new Label();
+        Label eaten = new Label("Eaten: 0");
         //Button terminate = new Button("View Results");
         gridPane.add(levelName, 0, 0);
         gridPane.add(status, 1, 0);
         gridPane.add(labelScore, 2, 0);
+        gridPane.add(eaten, 3, 0);
         //gridPane.add(terminate, 3, 0);
         gridPane.setHgap(25);
 
@@ -212,6 +216,10 @@ public class AttemptAtFinalProject extends Application{
         EventHandler<ActionEvent> eventHandler = e -> {
             boolean p1alive = true;
             r1.setHeight(r1.getHeight() + 1);
+            Circle eat = new Circle((Math.random()*480)+10, Math.random()*490,10);
+            eat.setFill(Color.MEDIUMPURPLE);
+            eat.setStroke(Color.LIGHTBLUE);
+            pane.getChildren().add(eat);
 
             while (p1alive) {
                 labelScore.setText("Score: " + (int)(r1.getHeight()-1));
@@ -275,7 +283,32 @@ public class AttemptAtFinalProject extends Application{
                             ae -> {
                                 pane.getChildren().clear();
                                 status.setText("Status pending...");
+                                eaten.setText("Eaten: 0");
+                                eatenNumber = 0;
                             }));
+
+                    Timeline eating = new Timeline(new KeyFrame(
+                            Duration.millis(50),
+                            ae -> {
+                                boolean boolEaten = false;
+                                if(p1.contains(eat.getCenterX()-eat.getRadius(), eat.getCenterY())) {
+                                    boolEaten = true;
+                                }
+                                if(p1.contains(eat.getCenterX()+eat.getRadius(), eat.getCenterY())) {
+                                    boolEaten = true;
+                                }
+                                if(boolEaten) {
+                                    eatenNumber++;
+                                    eaten.setText("Eaten: " + eatenNumber);
+                                    eat.setRadius(0);
+                                    eat.setCenterX(1000);
+                                    eat.setCenterY(1000);
+                                    pane.getChildren().remove(eat);
+                                }
+                            }));
+
+                    eating.setCycleCount(Timeline.INDEFINITE);
+                    eating.play();
 
                     Timeline wait = new Timeline(new KeyFrame(
                             Duration.millis(500),
