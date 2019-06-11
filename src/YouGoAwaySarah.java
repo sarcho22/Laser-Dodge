@@ -150,7 +150,7 @@ public class YouGoAwaySarah extends Application {
 //                            }));
 
                     Timeline eating = new Timeline(new KeyFrame(
-                            Duration.millis(0.000000001),
+                            Duration.millis(0),
                             ae -> {
                                 boolean boolEaten = false;
                                 System.out.println("hi");
@@ -186,8 +186,6 @@ public class YouGoAwaySarah extends Application {
                                 System.out.println(eatenNumber);
                             }));
 
-                    eating.setCycleCount(Timeline.INDEFINITE);
-                    eating.play();
                     // (x - x-coordinate)^2+(y - y-coordinate)^2=radius^2
                     // y-coordinate +  sqare root this side (x - x-coordinate)^2 -radius ^2 = y
 
@@ -256,7 +254,6 @@ public class YouGoAwaySarah extends Application {
                             Duration.millis(1500),
                             ae -> {
                                 pane.getChildren().add(line);
-                                eating.play();
                                 timeline1.play();
                             }));
                     timeline.play();
