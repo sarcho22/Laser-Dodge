@@ -18,7 +18,8 @@ import java.sql.Time;
 
 // maybe make a pacman type thing where there are dots and we need to get the dots as a challenge to increase score, also high score
 public class YouGoAwaySarah extends Application {
-    public int eatenNumber = 0;
+    public int eatenNumber1 = 0;
+    public int eatenNumber2 = 0;
     public void start(Stage primaryStage) {
         BorderPane borderPane = new BorderPane();
         Pane pane = new Pane();
@@ -33,16 +34,19 @@ public class YouGoAwaySarah extends Application {
 
         Label levelName = new Label();
         Label status = new Label("Status pending...");
-        Label labelScore = new Label();
-        Label eaten = new Label("Eaten: 0");
-        gridPane.add(levelName, 0, 0);
-        gridPane.add(status, 1, 0);
-        gridPane.add(labelScore, 2, 0);
-        gridPane.add(eaten, 3, 0);
+        Label p1eaten = new Label("Player 1: 0");
+        Label p2eaten = new Label("Player 2: 0");
+        gridPane.add(levelName, 1, 0);
+        gridPane.add(status, 2, 0);
+        gridPane.add(p1eaten, 0, 0);
+        gridPane.add(p2eaten, 3, 0);
         gridPane.setHgap(25);
 
         Rectangle p1 = new Rectangle(0, 0, 20, 20);
         p1.setFill(Color.POWDERBLUE);
+
+        Rectangle p2 = new Rectangle(0, 0, 20, 20);
+        p2.setFill(Color.LIGHTPINK);
 
         pane.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.RIGHT) {
@@ -71,6 +75,32 @@ public class YouGoAwaySarah extends Application {
                     p1.setY(p1.getY() - 5);
                 }
             }
+            if (e.getText().equals("d")) {
+                if (p2.getX() + p2.getWidth() >= 500) {
+                    p2.setX(p2.getX());
+                } else {
+                    p2.setX(p2.getX() + 5);
+                }
+
+            } else if (e.getText().equals("a")) {
+                if (p2.getX() <= 0) {
+                    p2.setX(p2.getX());
+                } else {
+                    p2.setX(p2.getX() - 5);
+                }
+            } else if (e.getText().equals("s")) {
+                if (p2.getY() + p2.getHeight() >= 500) {
+                    p2.setY(p2.getY());
+                } else {
+                    p2.setY(p2.getY() + 5);
+                }
+            } else if (e.getText().equals("w")) {
+                if (p2.getY() <= 0) {
+                    p2.setY(p2.getY());
+                } else {
+                    p2.setY(p2.getY() - 5);
+                }
+            }
         });
 
         Rectangle r1 = new Rectangle(0, 0, 0, 0);
@@ -78,6 +108,7 @@ public class YouGoAwaySarah extends Application {
         EventHandler<ActionEvent> eventHandler = e -> {
 
             boolean p1alive = true;
+            boolean p2alive = true;
             r1.setHeight(r1.getHeight() + 1);
 
             Circle eat = new Circle((Math.random()*480)+10, Math.random()*490,10);
@@ -85,11 +116,11 @@ public class YouGoAwaySarah extends Application {
             eat.setStroke(Color.LIGHTBLUE);
             pane.getChildren().add(eat);
 
-            while (p1alive) {
-                labelScore.setText("Score: " + (int)(r1.getHeight()-1));
+            while (p1alive && p2alive) {
                 levelName.setText("Level " + (int)(r1.getHeight()));
                 //
                 pane.getChildren().add(p1);
+                pane.getChildren().add(p2);
                 for (int i = 0; i < r1.getHeight(); i++) {
                     Line line = new Line();
                     line.setStroke(Color.GRAY);
@@ -152,12 +183,20 @@ public class YouGoAwaySarah extends Application {
                     Timeline eating = new Timeline(new KeyFrame(
                             Duration.millis(50),
                             ae -> {
-                                boolean boolEaten = false;
+                                boolean boolEaten1 = false;
+                                boolean boolEaten2 = false;
                                 if(p1.contains(eat.getCenterX()-eat.getRadius(), eat.getCenterY())) {
-                                    boolEaten = true;
+                                    boolEaten1 = true;
                                 }
                                 if(p1.contains(eat.getCenterX()+eat.getRadius(), eat.getCenterY())) {
-                                    boolEaten = true;
+                                    boolEaten1 = true;
+                                }
+
+                                if(p2.contains(eat.getCenterX()-eat.getRadius(), eat.getCenterY())) {
+                                    boolEaten2 = true;
+                                }
+                                if(p2.contains(eat.getCenterX()+eat.getRadius(), eat.getCenterY())) {
+                                    boolEaten2 = true;
                                 }
 //                                for (double x = eat.getCenterX()-eat.getRadius()+0.01; x <= eat.getCenterX()+eat.getRadius()-0.01; x += 0.01) {
 //                                    double y = Math.sqrt(Math.pow(x - eat.getCenterX(), 2) - Math.pow(eat.getRadius(), 2))+ eat.getCenterY();
@@ -177,9 +216,17 @@ public class YouGoAwaySarah extends Application {
 //                                        boolEaten = true;
 //                                    }
 //                                }
-                                if(boolEaten) {
-                                    eatenNumber++;
-                                    eaten.setText("Eaten: " + eatenNumber);
+                                if(boolEaten1) {
+                                    eatenNumber1++;
+                                    p1eaten.setText("Player 1: " + eatenNumber1);
+                                    eat.setRadius(0);
+                                    eat.setCenterX(1000);
+                                    eat.setCenterY(1000);
+                                    pane.getChildren().remove(eat);
+                                }
+                                if(boolEaten2) {
+                                    eatenNumber2++;
+                                    p2eaten.setText("Player 2: " + eatenNumber2);
                                     eat.setRadius(0);
                                     eat.setCenterX(1000);
                                     eat.setCenterY(1000);
@@ -197,8 +244,10 @@ public class YouGoAwaySarah extends Application {
                             Duration.millis(500),
                             ae -> {
                                 pane.getChildren().clear();
-                                eaten.setText("Eaten: 0");
-                                eatenNumber = 0;
+                                p1eaten.setText("Player 1: 0");
+                                p2eaten.setText("Player 2: 0");
+                                eatenNumber1 = 0;
+                                eatenNumber2 = 0;
                                 status.setText("Status pending...");
                             }));
 
@@ -236,7 +285,7 @@ public class YouGoAwaySarah extends Application {
                                     double m = (line.getStartY() - line.getEndY()) / (line.getStartX() - line.getEndX());
                                     double b = line.getStartY() - (m * line.getStartX());
                                     double y = (m * x) + b;
-                                    if (p1.contains(x, y)) {
+                                    if (p1.contains(x, y) || p2.contains(x, y)) {
                                         intersects = true;
                                     }
                                 }
@@ -264,6 +313,7 @@ public class YouGoAwaySarah extends Application {
 
                     if (r1.getWidth() == 10) {
                         p1alive = false;
+                        p2alive = false;
                         break;
                     }
 
