@@ -59,7 +59,7 @@ public class YouGoAwaySarah extends Application {
                     p1.setX(p1.getX() - 5);
                 }
             } else if (e.getCode() == KeyCode.DOWN) {
-                if (p1.getY() + p1.getHeight() >= 500) {
+                if (p1.getY() + p1.getHeight() >=480) {
                     p1.setY(p1.getY());
                 } else {
                     p1.setY(p1.getY() + 5);
@@ -150,10 +150,9 @@ public class YouGoAwaySarah extends Application {
 //                            }));
 
                     Timeline eating = new Timeline(new KeyFrame(
-                            Duration.millis(0),
+                            Duration.millis(50),
                             ae -> {
                                 boolean boolEaten = false;
-                                System.out.println("hi");
                                 if(p1.contains(eat.getCenterX()-eat.getRadius(), eat.getCenterY())) {
                                     boolEaten = true;
                                 }
@@ -171,20 +170,25 @@ public class YouGoAwaySarah extends Application {
 //                                        boolEaten = true;
 //                                    }
 //                                }
-                                for (double t = 0; t < 360; t++) {
-                                    double x = (eat.getRadius() * Math.cos(t)) + eat.getCenterX();
-                                    double y = (eat.getRadius() * Math.sin(t)) + eat.getCenterY();
-                                    if (p1.contains(x, y)) {
-                                        boolEaten = true;
-                                    }
-                                }
+////                                for (double t = 0; t < 360; t++) {
+//                                    double x = (eat.getRadius() * Math.cos(t)) + eat.getCenterX();
+//                                    double y = (eat.getRadius() * Math.sin(t)) + eat.getCenterY();
+//                                    if (p1.contains(x, y)) {
+//                                        boolEaten = true;
+//                                    }
+//                                }
                                 if(boolEaten) {
                                     eatenNumber++;
                                     eaten.setText("Eaten: " + eatenNumber);
+                                    eat.setRadius(0);
+                                    eat.setCenterX(0);
+                                    eat.setCenterY(0);
                                     pane.getChildren().remove(eat);
                                 }
-                                System.out.println(eatenNumber);
                             }));
+
+                    eating.setCycleCount(Timeline.INDEFINITE);
+                    eating.play();
 
                     // (x - x-coordinate)^2+(y - y-coordinate)^2=radius^2
                     // y-coordinate +  sqare root this side (x - x-coordinate)^2 -radius ^2 = y
