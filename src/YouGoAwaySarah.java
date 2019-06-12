@@ -42,10 +42,10 @@ public class YouGoAwaySarah extends Application {
         gridPane.add(p2eaten, 3, 0);
         gridPane.setHgap(25);
 
-        Rectangle p1 = new Rectangle(0, 0, 20, 20);
+        Rectangle p1 = new Rectangle(0, 240, 20, 20);
         p1.setFill(Color.POWDERBLUE);
 
-        Rectangle p2 = new Rectangle(0, 0, 20, 20);
+        Rectangle p2 = new Rectangle(480, 240, 20, 20);
         p2.setFill(Color.LIGHTPINK);
 
         pane.setOnKeyPressed(e -> {
