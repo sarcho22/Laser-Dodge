@@ -26,7 +26,16 @@ import java.util.ArrayList;
 
 public class AttemptAtFinalProject extends Application{
     public ArrayList playerScores;
-    public int eatenNumber = 0;
+    public int eatenNumber1 = 0;
+    public int eatenNumber2 = 0;
+    public boolean p1left = false;
+    public boolean p2right = false;
+    public boolean p1up = false;
+    public boolean p1down = false;
+    public boolean p2left = false;
+    public boolean p2down = false;
+    public boolean p2up = false;
+    public boolean p1right = false;
     public void start(Stage menuStage){
         BorderPane borderPane = new BorderPane();
         Rectangle bg = new Rectangle();
@@ -120,9 +129,9 @@ public class AttemptAtFinalProject extends Application{
         instructions.setFont(new Font("Cambria", 20));
         instructions.setText(
                 "1. You will be a blue square,\n\tuse the arrow keys to avoid touching the lasers.\n" +
-                "2. You will have 5 seconds to aviod the\n\t gray lasers until they turn red.\n" +
-                "3. To score more points try to eat the\n\t purple circles that will appear on the screen.\n" +
-                "4. Try to stay alive as long as you can\n\t and score the most points! Good Luck!"
+                        "2. You will have 5 seconds to aviod the\n\t gray lasers until they turn red.\n" +
+                        "3. To score more points try to eat the\n\t purple circles that will appear on the screen.\n" +
+                        "4. Try to stay alive as long as you can\n\t and score the most points! Good Luck!"
         );
 
         hBox1.getChildren().add(gameTitle);
@@ -162,70 +171,154 @@ public class AttemptAtFinalProject extends Application{
 
         Label levelName = new Label();
         Label status = new Label("Status pending...");
-        Label labelScore = new Label();
-        Label eaten = new Label("Eaten: 0");
-        //Button terminate = new Button("View Results");
-        gridPane.add(levelName, 0, 0);
-        gridPane.add(status, 1, 0);
-        gridPane.add(labelScore, 2, 0);
-        gridPane.add(eaten, 3, 0);
-        //gridPane.add(terminate, 3, 0);
+        Label p1eaten = new Label("Player 1: 0");
+        Label p2eaten = new Label("Player 2: 0");
+        gridPane.add(levelName, 1, 0);
+        gridPane.add(status, 2, 0);
+        gridPane.add(p1eaten, 0, 0);
+        gridPane.add(p2eaten, 3, 0);
         gridPane.setHgap(25);
 
-        Rectangle p1 = new Rectangle(0, 0, 20, 20);
+        Rectangle p1 = new Rectangle(480, 240, 20, 20);
         p1.setFill(Color.POWDERBLUE);
-/*
-        terminate.setOnMouseClicked(a -> {
-            playStage.close();
-            //playerScores.add(score);
-            Stage endStage = new Stage();
-            end(endStage);
-        });
-*/
-        pane.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.RIGHT) {
-                if (p1.getX() + p1.getWidth() >= 500) {
-                    p1.setX(p1.getX());
-                } else {
-                    p1.setX(p1.getX() + 5);
-                }
 
-            } else if (e.getCode() == KeyCode.LEFT) {
-                if (p1.getX() <= 0) {
-                    p1.setX(p1.getX());
-                } else {
-                    p1.setX(p1.getX() - 5);
+        Rectangle p2 = new Rectangle(0, 240, 20, 20);
+        p2.setFill(Color.LIGHTPINK);
+
+        Circle eye1 = new Circle();
+        eye1.centerXProperty().bind(p1.xProperty().add(7));
+        eye1.centerYProperty().bind(p1.yProperty().add(7));
+        eye1.setRadius(3);
+        eye1.setStrokeWidth(1);
+        eye1.setFill(Color.BLACK);
+        pane.getChildren().add(eye1);
+
+        Circle eye2 = new Circle();
+
+        EventHandler<ActionEvent> eventHandler2 = f -> {
+            pane.setOnKeyPressed(e -> {
+                if (e.getCode() == KeyCode.RIGHT) {
+                    p1right = true;
+                } else if (e.getCode() == KeyCode.LEFT) {
+                    p1left = true;
+                } else if (e.getCode() == KeyCode.DOWN) {
+                    p1down = true;
+                } else if (e.getCode() == KeyCode.UP) {
+                    p1up = true;
                 }
-            } else if (e.getCode() == KeyCode.DOWN) {
-                if (p1.getY() + p1.getHeight() >=480) {
-                    p1.setY(p1.getY());
-                } else {
-                    p1.setY(p1.getY() + 5);
+                if (e.getText().equals("d")) {
+                    p2left = true;
+                } else if (e.getText().equals("a")) {
+                    p2right = true;
+                } else if (e.getText().equals("s")) {
+                    p2down = true;
+                } else if (e.getText().equals("w")) {
+                    p2up = true;
                 }
-            } else if (e.getCode() == KeyCode.UP) {
+            });
+
+            pane.setOnKeyReleased(e -> {
+                if (e.getCode() == KeyCode.RIGHT) {
+                    p1right = false;
+                } else if (e.getCode() == KeyCode.LEFT) {
+                    p1left = false;
+                } else if (e.getCode() == KeyCode.DOWN) {
+                    p1down = false;
+                } else if (e.getCode() == KeyCode.UP) {
+                    p1up = false;
+                }
+                if (e.getText().equals("d")) {
+                    p2left = false;
+                } else if (e.getText().equals("a")) {
+                    p2right = false;
+                } else if (e.getText().equals("s")) {
+                    p2down = false;
+                } else if (e.getText().equals("w")) {
+                    p2up = false;
+                }
+            });
+
+            if (p1up) {
                 if (p1.getY() <= 0) {
                     p1.setY(p1.getY());
                 } else {
                     p1.setY(p1.getY() - 5);
                 }
             }
-        });
+            if (p2up) {
+                if (p2.getY() <= 0) {
+                    p2.setY(p2.getY());
+                } else {
+                    p2.setY(p2.getY() - 5);
+                }
+            }
+            if (p2down) {
+                if (p2.getY() + p2.getHeight() >= 500) {
+                    p2.setY(p2.getY());
+                } else {
+                    p2.setY(p2.getY() + 5);
+                }
+            }
+            if (p1down) {
+                if (p1.getY() + p1.getHeight() >= 500) {
+                    p1.setY(p1.getY());
+                } else {
+                    p1.setY(p1.getY() + 5);
+                }
+            }
+            if (p2left) {
+                if (p2.getX() + p2.getWidth() >= 500) {
+                    p2.setX(p2.getX());
+                } else {
+                    p2.setX(p2.getX() + 5);
+                }
+            }
+            if (p1left) {
+                if (p1.getX() <= 0) {
+                    p1.setX(p1.getX());
+                } else {
+                    p1.setX(p1.getX() - 5);
+                }
+            }
+            if (p2right) {
+                if (p2.getX() <= 0) {
+                    p2.setX(p2.getX());
+                } else {
+                    p2.setX(p2.getX() - 5);
+                }
+            }
+            if (p1right) {
+                if (p1.getX() + p1.getWidth() >= 500) {
+                    p1.setX(p1.getX());
+                } else {
+                    p1.setX(p1.getX() + 5);
+                }
+            }
+        };
+
+        Timeline keys = new Timeline(
+                new KeyFrame(Duration.millis(50), eventHandler2));
+        keys.setCycleCount(Timeline.INDEFINITE);
+        keys.play();
 
         Rectangle r1 = new Rectangle(0, 0, 0, 0);
 
         EventHandler<ActionEvent> eventHandler = e -> {
+
             boolean p1alive = true;
+            boolean p2alive = true;
             r1.setHeight(r1.getHeight() + 1);
-            Circle eat = new Circle((Math.random()*480)+10, Math.random()*490,10);
+
+            Circle eat = new Circle((Math.random()*470)+10, Math.random()*470,10);
             eat.setFill(Color.MEDIUMPURPLE);
             eat.setStroke(Color.LIGHTBLUE);
             pane.getChildren().add(eat);
 
-            while (p1alive) {
-                labelScore.setText("Score: " + (int)(r1.getHeight()-1));
+            while (p1alive && p2alive) {
                 levelName.setText("Level " + (int)(r1.getHeight()));
                 //
                 pane.getChildren().add(p1);
+                pane.getChildren().add(p2);
                 for (int i = 0; i < r1.getHeight(); i++) {
                     Line line = new Line();
                     line.setStroke(Color.GRAY);
@@ -278,28 +371,60 @@ public class AttemptAtFinalProject extends Application{
                             Duration.millis(1000),
                             ae -> System.out.println("You cleared Level: " + (r1.getHeight()-1))));
 
-                    Timeline pending = new Timeline(new KeyFrame(
-                            Duration.millis(500),
-                            ae -> {
-                                pane.getChildren().clear();
-                                status.setText("Status pending...");
-                                eaten.setText("Eaten: 0");
-                                eatenNumber = 0;
-                            }));
+//                    Timeline clear = new Timeline(new KeyFrame(
+//                            Duration.millis(1000),
+//                            ae -> {
+//                                pane.getChildren().clear();
+//                                r1.setHeight(1);
+//                            }));
 
                     Timeline eating = new Timeline(new KeyFrame(
                             Duration.millis(50),
                             ae -> {
-                                boolean boolEaten = false;
+                                boolean boolEaten1 = false;
+                                boolean boolEaten2 = false;
                                 if(p1.contains(eat.getCenterX()-eat.getRadius(), eat.getCenterY())) {
-                                    boolEaten = true;
+                                    boolEaten1 = true;
                                 }
                                 if(p1.contains(eat.getCenterX()+eat.getRadius(), eat.getCenterY())) {
-                                    boolEaten = true;
+                                    boolEaten1 = true;
                                 }
-                                if(boolEaten) {
-                                    eatenNumber++;
-                                    eaten.setText("Eaten: " + eatenNumber);
+
+                                if(p2.contains(eat.getCenterX()-eat.getRadius(), eat.getCenterY())) {
+                                    boolEaten2 = true;
+                                }
+                                if(p2.contains(eat.getCenterX()+eat.getRadius(), eat.getCenterY())) {
+                                    boolEaten2 = true;
+                                }
+//                                for (double x = eat.getCenterX()-eat.getRadius()+0.01; x <= eat.getCenterX()+eat.getRadius()-0.01; x += 0.01) {
+//                                    double y = Math.sqrt(Math.pow(x - eat.getCenterX(), 2) - Math.pow(eat.getRadius(), 2))+ eat.getCenterY();
+//
+//                                    double y2 = eat.getCenterY()-y;
+//                                    if (p1.contains(x, y)) {
+//                                        boolEaten = true;
+//                                    }
+//                                    if (p1.contains(x, y2)) {
+//                                        boolEaten = true;
+//                                    }
+//                                }
+////                                for (double t = 0; t < 360; t++) {
+//                                    double x = (eat.getRadius() * Math.cos(t)) + eat.getCenterX();
+//                                    double y = (eat.getRadius() * Math.sin(t)) + eat.getCenterY();
+//                                    if (p1.contains(x, y)) {
+//                                        boolEaten = true;
+//                                    }
+//                                }
+                                if(boolEaten1) {
+                                    eatenNumber1++;
+                                    p2eaten.setText("Player 2: " + eatenNumber1);
+                                    eat.setRadius(0);
+                                    eat.setCenterX(1000);
+                                    eat.setCenterY(1000);
+                                    pane.getChildren().remove(eat);
+                                }
+                                if(boolEaten2) {
+                                    eatenNumber2++;
+                                    p1eaten.setText("Player 1: " + eatenNumber2);
                                     eat.setRadius(0);
                                     eat.setCenterX(1000);
                                     eat.setCenterY(1000);
@@ -310,11 +435,26 @@ public class AttemptAtFinalProject extends Application{
                     eating.setCycleCount(Timeline.INDEFINITE);
                     eating.play();
 
+                    // (x - x-coordinate)^2+(y - y-coordinate)^2=radius^2
+                    // y-coordinate +  sqare root this side (x - x-coordinate)^2 -radius ^2 = y
+
+                    Timeline pending = new Timeline(new KeyFrame(
+                            Duration.millis(500),
+                            ae -> {
+                                pane.getChildren().clear();
+                                p2eaten.setText("Player 2: 0");
+                                p1eaten.setText("Player 1: 0");
+                                eatenNumber1 = 0;
+                                eatenNumber2 = 0;
+                                status.setText("Status pending...");
+                            }));
+
                     Timeline wait = new Timeline(new KeyFrame(
                             Duration.millis(500),
                             ae -> {
                                 pane.getChildren().clear();
                                 status.setText("Restarting the game now... \\(OwO)/");
+//                                clear.play();
                                 r1.setHeight(0);
                                 pending.play();
                             }));
@@ -343,7 +483,7 @@ public class AttemptAtFinalProject extends Application{
                                     double m = (line.getStartY() - line.getEndY()) / (line.getStartX() - line.getEndX());
                                     double b = line.getStartY() - (m * line.getStartX());
                                     double y = (m * x) + b;
-                                    if (p1.contains(x, y)) {
+                                    if (p1.contains(x, y) || p2.contains(x, y)) {
                                         intersects = true;
                                     }
                                 }
@@ -367,14 +507,16 @@ public class AttemptAtFinalProject extends Application{
                                 pane.getChildren().add(line);
                                 timeline1.play();
                             }));
-
                     timeline.play();
 
                     if (r1.getWidth() == 10) {
                         p1alive = false;
+                        p2alive = false;
                         break;
                     }
+
                 }
+
             }
         };
 
@@ -382,6 +524,9 @@ public class AttemptAtFinalProject extends Application{
                 new KeyFrame(Duration.millis(5205), eventHandler));
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.play();
+
+
+
 
         Scene scene = new Scene(borderPane, 500, 500);
         playStage.setScene(scene);
