@@ -171,10 +171,10 @@ public class Final_Project_With_Two_Player_Eating extends Application{
         gridPane.add(p2eaten, 3, 0);
         gridPane.setHgap(25);
 
-        Rectangle p1 = new Rectangle(0, 240, 20, 20);
+        Rectangle p1 = new Rectangle(480, 240, 20, 20);
         p1.setFill(Color.POWDERBLUE);
 
-        Rectangle p2 = new Rectangle(480, 240, 20, 20);
+        Rectangle p2 = new Rectangle(0, 240, 20, 20);
         p2.setFill(Color.LIGHTPINK);
 
         pane.setOnKeyPressed(e -> {
@@ -240,7 +240,7 @@ public class Final_Project_With_Two_Player_Eating extends Application{
             boolean p2alive = true;
             r1.setHeight(r1.getHeight() + 1);
 
-            Circle eat = new Circle((Math.random()*480)+10, Math.random()*490,10);
+            Circle eat = new Circle((Math.random()*470)+10, Math.random()*470,10);
             eat.setFill(Color.MEDIUMPURPLE);
             eat.setStroke(Color.LIGHTBLUE);
             pane.getChildren().add(eat);
