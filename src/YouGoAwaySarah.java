@@ -36,6 +36,7 @@ public class YouGoAwaySarah extends Application{
     public boolean p2down = false;
     public boolean p2up = false;
     public boolean p1right = false;
+
     public void start(Stage menuStage){
         BorderPane borderPane = new BorderPane();
         Rectangle bg = new Rectangle();
@@ -59,14 +60,19 @@ public class YouGoAwaySarah extends Application{
 
         Label credits = new Label("Made by GoAway, IsGone, and JustDED");
         credits.setFont(new Font("Cambria", 20));
+
         Label gameTitle = new Label("\n\nLaser Dodge");
         gameTitle.setFont(new Font("Cambria", 50));
+
         Button play = new Button("Play");
         play.setFont(new Font("Cambria", 40));
+
         Button help = new Button("Help");
         help.setFont(new Font("Cambria", 40));
+
         Label name = new Label("Enter Name: ");
         name.setFont(new Font("Cambria", 20));
+
         TextField nameEntry = new TextField();
 
         hBox1.getChildren().add(credits);
@@ -75,11 +81,11 @@ public class YouGoAwaySarah extends Application{
         hBox2.getChildren().add(help);
         hBox3.getChildren().add(name);
         hBox3.getChildren().add(nameEntry);
+
         hBox.setAlignment(Pos.CENTER);
         hBox1.setAlignment(Pos.CENTER);
         hBox2.setAlignment(Pos.CENTER);
         hBox3.setAlignment(Pos.CENTER);
-
 
         play.setOnAction(e -> {
             // shove the name into the results page!!!
@@ -97,7 +103,6 @@ public class YouGoAwaySarah extends Application{
             help(helpStage);
 
         });
-
 
         Scene scene = new Scene(borderPane, 500, 500);
         menuStage.setScene(scene);
@@ -128,10 +133,12 @@ public class YouGoAwaySarah extends Application{
         Text instructions = new Text("");
         instructions.setFont(new Font("Cambria", 20));
         instructions.setText(
-                "1. You will be a blue square,\n\tuse the arrow keys to avoid touching the lasers.\n" +
-                        "2. You will have 5 seconds to aviod the\n\t gray lasers until they turn red.\n" +
-                        "3. To score more points try to eat the\n\t purple circles that will appear on the screen.\n" +
-                        "4. Try to stay alive as long as you can\n\t and score the most points! Good Luck!"
+                "1. Player 1 will be a pink square, \n\t use the WASD keys to avoid touching the lasers.\n" +
+                        "2. Player 2 will be a blue square, \n\t use the arrow keys to avoid touching the lasers.\n" +
+                        "3. You will have a few seconds to avoid the\n\t gray lasers until they turn red. If you are \n\t" +
+                        "on the laser after it turns red, the game will restart. \n" +
+                        "4. To score points, both players will try to eat the\n\t circle that will appear on the screen.\n" +
+                        "5. Try to stay alive as long as you can\n\t and score the most points! Good Luck!"
         );
 
         hBox1.getChildren().add(gameTitle);
@@ -141,13 +148,11 @@ public class YouGoAwaySarah extends Application{
         hBox2.setAlignment(Pos.CENTER);
         hBox3.setAlignment(Pos.CENTER);
 
-
         menu.setOnAction(e -> {
             helpStage.close();
             Stage menuStage = new Stage();
             start(menuStage);
         });
-
 
         Scene scene = new Scene(borderPane, 500, 500);
         helpStage.setScene(scene);
@@ -173,6 +178,7 @@ public class YouGoAwaySarah extends Application{
         Label status = new Label("Status pending...");
         Label p1eaten = new Label("Player 1: 0");
         Label p2eaten = new Label("Player 2: 0");
+
         gridPane.add(levelName, 1, 0);
         gridPane.add(status, 2, 0);
         gridPane.add(p1eaten, 0, 0);
@@ -240,6 +246,7 @@ public class YouGoAwaySarah extends Application{
                 } else if (e.getCode() == KeyCode.UP) {
                     p1up = true;
                 }
+
                 if (e.getText().equals("d")) {
                     p2left = true;
                 } else if (e.getText().equals("a")) {
@@ -261,6 +268,7 @@ public class YouGoAwaySarah extends Application{
                 } else if (e.getCode() == KeyCode.UP) {
                     p1up = false;
                 }
+
                 if (e.getText().equals("d")) {
                     p2left = false;
                 } else if (e.getText().equals("a")) {
@@ -279,6 +287,7 @@ public class YouGoAwaySarah extends Application{
                     p1.setY(p1.getY() - 5);
                 }
             }
+
             if (p2up) {
                 if (p2.getY() <= 0) {
                     p2.setY(p2.getY());
@@ -286,6 +295,7 @@ public class YouGoAwaySarah extends Application{
                     p2.setY(p2.getY() - 5);
                 }
             }
+
             if (p2down) {
                 if (p2.getY() + p2.getHeight() >= 480) {
                     p2.setY(p2.getY());
@@ -293,6 +303,7 @@ public class YouGoAwaySarah extends Application{
                     p2.setY(p2.getY() + 5);
                 }
             }
+
             if (p1down) {
                 if (p1.getY() + p1.getHeight() >= 480) {
                     p1.setY(p1.getY());
@@ -300,6 +311,7 @@ public class YouGoAwaySarah extends Application{
                     p1.setY(p1.getY() + 5);
                 }
             }
+
             if (p2left) {
                 if (p2.getX() + p2.getWidth() >= 500) {
                     p2.setX(p2.getX());
@@ -307,6 +319,7 @@ public class YouGoAwaySarah extends Application{
                     p2.setX(p2.getX() + 5);
                 }
             }
+
             if (p1left) {
                 if (p1.getX() <= 0) {
                     p1.setX(p1.getX());
@@ -314,6 +327,7 @@ public class YouGoAwaySarah extends Application{
                     p1.setX(p1.getX() - 5);
                 }
             }
+
             if (p2right) {
                 if (p2.getX() <= 0) {
                     p2.setX(p2.getX());
@@ -321,6 +335,7 @@ public class YouGoAwaySarah extends Application{
                     p2.setX(p2.getX() - 5);
                 }
             }
+
             if (p1right) {
                 if (p1.getX() + p1.getWidth() >= 500) {
                     p1.setX(p1.getX());
@@ -350,7 +365,7 @@ public class YouGoAwaySarah extends Application{
 
             while (p1alive && p2alive) {
                 levelName.setText("Level " + (int)(r1.getHeight()));
-                //
+
                 pane.getChildren().add(p1);
                 pane.getChildren().add(p2);
                 pane.getChildren().add(eye1);
@@ -359,11 +374,13 @@ public class YouGoAwaySarah extends Application{
                 pane.getChildren().add(eye4);
                 pane.getChildren().add(mouth1);
                 pane.getChildren().add(mouth2);
+
                 for (int i = 0; i < r1.getHeight(); i++) {
                     Line line = new Line();
                     line.setStroke(Color.GRAY);
 
                     int direction = (int) (Math.random() * 10);
+
                     if (direction == 0||direction == 7||direction == 8) {
                         line.setStartX(0);
                         line.setStartY(Math.random() * 500);
