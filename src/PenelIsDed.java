@@ -188,12 +188,46 @@ public class PenelIsDed extends Application{
         Circle eye1 = new Circle();
         eye1.centerXProperty().bind(p1.xProperty().add(7));
         eye1.centerYProperty().bind(p1.yProperty().add(7));
-        eye1.setRadius(3);
+        eye1.setRadius(2);
         eye1.setStrokeWidth(1);
         eye1.setFill(Color.BLACK);
-        pane.getChildren().add(eye1);
 
         Circle eye2 = new Circle();
+        eye2.centerXProperty().bind(eye1.centerXProperty().add(8));
+        eye2.centerYProperty().bind(eye1.centerYProperty());
+        eye2.setRadius(2);
+        eye2.setStrokeWidth(1);
+        eye2.setFill(Color.BLACK);
+
+        Circle eye3 = new Circle();
+        eye3.centerXProperty().bind(p2.xProperty().add(7));
+        eye3.centerYProperty().bind(p2.yProperty().add(7));
+        eye3.setRadius(2);
+        eye3.setStrokeWidth(1);
+        eye3.setFill(Color.BLACK);
+
+        Circle eye4 = new Circle();
+        eye4.centerXProperty().bind(eye3.centerXProperty().add(8));
+        eye4.centerYProperty().bind(eye3.centerYProperty());
+        eye4.setRadius(2);
+        eye4.setStrokeWidth(1);
+        eye4.setFill(Color.BLACK);
+
+        Line mouth1 = new Line();
+        mouth1.startXProperty().bind(eye1.centerXProperty().add(2));
+        mouth1.startYProperty().bind(eye1.centerYProperty().add(7));
+        mouth1.endXProperty().bind(mouth1.startXProperty().add(5));
+        mouth1.endYProperty().bind(mouth1.startYProperty());
+        mouth1.setStrokeWidth(2);
+        mouth1.setStroke(Color.BLACK);
+
+        Line mouth2 = new Line();
+        mouth2.startXProperty().bind(eye3.centerXProperty().add(2));
+        mouth2.startYProperty().bind(eye3.centerYProperty().add(7));
+        mouth2.endXProperty().bind(mouth2.startXProperty().add(5));
+        mouth2.endYProperty().bind(mouth2.startYProperty());
+        mouth2.setStrokeWidth(2);
+        mouth2.setStroke(Color.BLACK);
 
         EventHandler<ActionEvent> eventHandler2 = f -> {
             pane.setOnKeyPressed(e -> {
@@ -319,6 +353,12 @@ public class PenelIsDed extends Application{
                 //
                 pane.getChildren().add(p1);
                 pane.getChildren().add(p2);
+                pane.getChildren().add(eye1);
+                pane.getChildren().add(eye2);
+                pane.getChildren().add(eye3);
+                pane.getChildren().add(eye4);
+                pane.getChildren().add(mouth1);
+                pane.getChildren().add(mouth2);
                 for (int i = 0; i < r1.getHeight(); i++) {
                     Line line = new Line();
                     line.setStroke(Color.GRAY);
