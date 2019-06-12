@@ -1,3 +1,5 @@
+package Final_Project;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
