@@ -50,7 +50,7 @@ public class SashaIsGone extends Application {
         Rectangle p2 = new Rectangle(480, 240, 20, 20);
         p2.setFill(Color.ORANGE);
 
-/*
+
         EventHandler<ActionEvent> eventHandler2 = f -> {
         pane.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.RIGHT) {
@@ -153,10 +153,10 @@ public class SashaIsGone extends Application {
         };
 
         Timeline keys = new Timeline(
-                new KeyFrame(Duration.millis(1), eventHandler2));
+                new KeyFrame(Duration.millis(50), eventHandler2));
         keys.setCycleCount(Timeline.INDEFINITE);
         keys.play();
-*/
+
         Rectangle r1 = new Rectangle(0, 0, 0, 0);
 
         EventHandler<ActionEvent> eventHandler = e -> {
