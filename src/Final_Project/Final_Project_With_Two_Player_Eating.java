@@ -245,14 +245,14 @@ public class Final_Project_With_Two_Player_Eating extends Application{
                 }
             }
             if (p2down) {
-                if (p2.getY() + p2.getHeight() >= 500) {
+                if (p2.getY() + p2.getHeight() >= 480) {
                     p2.setY(p2.getY());
                 } else {
                     p2.setY(p2.getY() + 5);
                 }
             }
             if (p1down) {
-                if (p1.getY() + p1.getHeight() >= 500) {
+                if (p1.getY() + p1.getHeight() >= 480) {
                     p1.setY(p1.getY());
                 } else {
                     p1.setY(p1.getY() + 5);
