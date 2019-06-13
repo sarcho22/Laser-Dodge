@@ -576,6 +576,8 @@ public class PenelIsDed extends Application{
 
         BorderPane bp1 = new BorderPane();
         borderPane.setTop(bp1);
+        BorderPane bp2 = new BorderPane();
+        borderPane.setCenter(bp2);
 
         HBox hBox = new HBox();
         bp1.setBottom(hBox);
@@ -584,7 +586,10 @@ public class PenelIsDed extends Application{
         HBox hBox2 = new HBox();
         borderPane.setBottom(hBox2);
         HBox hBox3 = new HBox();
-        borderPane.setCenter(hBox3);
+        bp2.setCenter(hBox3);
+        HBox hBox4 = new HBox();
+        bp2.setBottom(hBox4);
+        hBox2.setSpacing(10);
         hBox3.setSpacing(10);
 
         Label gameTitle = new Label(winner + " Won!!!");
@@ -593,17 +598,21 @@ public class PenelIsDed extends Application{
         restart.setFont(new Font("Cambria", 40));
         Button exit = new Button("Exit Game");
         exit.setFont(new Font("Cambria", 40));
+        Label r = new Label("Rounds: ");
+        r.setFont(new Font("Cambria", 20));
 
         hBox1.getChildren().add(gameTitle);
         hBox2.getChildren().add(restart);
         hBox2.getChildren().add(exit);
         hBox3.getChildren().add(nameEntry1);
         hBox3.getChildren().add(nameEntry2);
+        hBox4.getChildren().add(r);
+        hBox4.getChildren().add(rounds);
         hBox.setAlignment(Pos.CENTER);
         hBox1.setAlignment(Pos.CENTER);
         hBox2.setAlignment(Pos.CENTER);
         hBox3.setAlignment(Pos.CENTER);
-
+        hBox4.setAlignment(Pos.CENTER);
 
         restart.setOnAction(e -> {
             endStage.close();
