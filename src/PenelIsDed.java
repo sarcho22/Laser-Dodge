@@ -382,6 +382,7 @@ public class PenelIsDed extends Application{
                                 eatenNumber1 = 0;
                                 eatenNumber2 = 0;
                                 r1.setHeight(0);
+                                status.setText("Status pending...");
                                 p2eaten.setText(nameEntry2.getText() + ": " + eatenNumber1);
                                 p1eaten.setText(nameEntry1.getText() + ": " + eatenNumber2);
                                 screenThing.play();

@@ -1,3 +1,6 @@
+package Final_Project;
+
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -22,7 +25,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class SashaIsGone extends Application{
+public class Final_Project_2 extends Application{
     public int eatenNumber1 = 0;
     public int eatenNumber2 = 0;
     public boolean p1left = false;
@@ -37,24 +40,9 @@ public class SashaIsGone extends Application{
     public TextField nameEntry2 = new TextField("Player 2");
     public TextField rounds = new TextField("10");
     public Stage endStage = new Stage();
-    public EventHandler<ActionEvent> eventHandler = e -> runEventHandler();
-    public Timeline animation = new Timeline(new KeyFrame(Duration.millis(5205), eventHandler));
-    public Label levelName = new Label();
-    public Label status = new Label("Status pending...");
-    public Label p1eaten = new Label(nameEntry1.getText() + ": 0");
-    public Label p2eaten = new Label(nameEntry2.getText() + ": 0");
-    public Circle eye1 = new Circle();
-    public Circle eye2 = new Circle();
-    public Circle eye3 = new Circle();
-    public Circle eye4 = new Circle();
-    public Line mouth1 = new Line();
-    public Line mouth2 = new Line();
-    public Rectangle r1 = new Rectangle(0, 0, 0, 0);
-    public Rectangle p1 = new Rectangle(480, 240, 20, 20);
-    public Rectangle p2 = new Rectangle(0, 240, 20, 20);
-    public Pane pane = new Pane();
-    public Stage playStage = new Stage();
+    public String winner;
 
+    //public Timeline animation;
     public void start(Stage menuStage){
         BorderPane borderPane = new BorderPane();
         Rectangle bg = new Rectangle();
@@ -154,7 +142,7 @@ public class SashaIsGone extends Application{
                         "3. You will have a few seconds to avoid the\n\t gray lasers until they turn red. If you are \n\t" +
                         "on the laser after it turns red, the game will restart. \n" +
                         "4. To score points, both players will try to eat the\n\t circle that will appear on the screen.\n" +
-                        "5. Try to stay alive, players must score chosen\n\t amount of points to win! Good Luck!"
+                        "5. Try to stay alive as long as you can\n\t and score the most points! Good Luck!"
         );
 
         hBox1.getChildren().add(gameTitle);
@@ -182,6 +170,7 @@ public class SashaIsGone extends Application{
 
     public void game(Stage playStage) {
         BorderPane borderPane = new BorderPane();
+        Pane pane = new Pane();
         borderPane.setCenter(pane);
         pane.prefWidthProperty().bind(borderPane.widthProperty());
         pane.prefHeightProperty().bind(borderPane.heightProperty().divide(25).multiply(24));
@@ -191,39 +180,51 @@ public class SashaIsGone extends Application{
         gridPane.prefWidthProperty().bind(borderPane.widthProperty());
         gridPane.prefHeightProperty().bind(borderPane.heightProperty().divide(25));
 
+        Label levelName = new Label();
+        Label status = new Label("Status pending...");
+        Label p1eaten = new Label(nameEntry1.getText() + ": 0");
+        Label p2eaten = new Label(nameEntry2.getText() + ": 0");
         gridPane.add(levelName, 1, 0);
         gridPane.add(status, 2, 0);
         gridPane.add(p1eaten, 0, 0);
         gridPane.add(p2eaten, 3, 0);
         gridPane.setHgap(25);
 
+        Rectangle p1 = new Rectangle(480, 240, 20, 20);
         p1.setFill(Color.POWDERBLUE);
+
+        Rectangle p2 = new Rectangle(0, 240, 20, 20);
         p2.setFill(Color.LIGHTPINK);
 
+        Circle eye1 = new Circle();
         eye1.centerXProperty().bind(p1.xProperty().add(7));
         eye1.centerYProperty().bind(p1.yProperty().add(7));
         eye1.setRadius(2);
         eye1.setStrokeWidth(1);
         eye1.setFill(Color.BLACK);
 
+        Circle eye2 = new Circle();
         eye2.centerXProperty().bind(eye1.centerXProperty().add(8));
         eye2.centerYProperty().bind(eye1.centerYProperty());
         eye2.setRadius(2);
         eye2.setStrokeWidth(1);
         eye2.setFill(Color.BLACK);
 
+        Circle eye3 = new Circle();
         eye3.centerXProperty().bind(p2.xProperty().add(7));
         eye3.centerYProperty().bind(p2.yProperty().add(7));
         eye3.setRadius(2);
         eye3.setStrokeWidth(1);
         eye3.setFill(Color.BLACK);
 
+        Circle eye4 = new Circle();
         eye4.centerXProperty().bind(eye3.centerXProperty().add(8));
         eye4.centerYProperty().bind(eye3.centerYProperty());
         eye4.setRadius(2);
         eye4.setStrokeWidth(1);
         eye4.setFill(Color.BLACK);
 
+        Line mouth1 = new Line();
         mouth1.startXProperty().bind(eye1.centerXProperty().add(2));
         mouth1.startYProperty().bind(eye1.centerYProperty().add(7));
         mouth1.endXProperty().bind(mouth1.startXProperty().add(5));
@@ -231,6 +232,7 @@ public class SashaIsGone extends Application{
         mouth1.setStrokeWidth(2);
         mouth1.setStroke(Color.BLACK);
 
+        Line mouth2 = new Line();
         mouth2.startXProperty().bind(eye3.centerXProperty().add(2));
         mouth2.startYProperty().bind(eye3.centerYProperty().add(7));
         mouth2.endXProperty().bind(mouth2.startXProperty().add(5));
@@ -344,17 +346,10 @@ public class SashaIsGone extends Application{
         keys.setCycleCount(Timeline.INDEFINITE);
         keys.play();
 
-        animation.setCycleCount(Timeline.INDEFINITE);
-        animation.play();
+        Rectangle r1 = new Rectangle(0, 0, 0, 0);
 
-        Scene scene = new Scene(borderPane, 500, 500);
-        playStage.setScene(scene);
-        playStage.setTitle("Laser Dodge");
-        playStage.show();
-        pane.requestFocus();
-    }
+        EventHandler<ActionEvent> eventHandler = e -> {
 
-    public void runEventHandler(){
             boolean p1alive = true;
             boolean p2alive = true;
             r1.setHeight(r1.getHeight() + 1);
@@ -367,7 +362,6 @@ public class SashaIsGone extends Application{
             while (p1alive && p2alive) {
                 levelName.setText("Level " + (int)(r1.getHeight()));
                 if (eatenNumber1 >= Integer.parseInt(rounds.getText()) || eatenNumber2 >= Integer.parseInt(rounds.getText())) {
-                    String winner;
                     if (eatenNumber1 > eatenNumber2){
                         winner = nameEntry2.getText();
                     }
@@ -377,9 +371,26 @@ public class SashaIsGone extends Application{
                     else {
                         winner = "Both";
                     }
-                    animation.stop();
-                    playStage.close();
-                    end(endStage, winner);
+                    Timeline screenThing = new Timeline(new KeyFrame(
+                            Duration.millis(5000),
+                            ae -> {
+                                endStage.close();
+                            }
+                    ));
+                    Timeline results = new Timeline(new KeyFrame(
+                            Duration.millis(1),
+                            ae -> {
+                                end(endStage, winner);
+                                eatenNumber1 = 0;
+                                eatenNumber2 = 0;
+                                r1.setHeight(0);
+                                status.setText("Status pending...");
+                                p2eaten.setText(nameEntry2.getText() + ": " + eatenNumber1);
+                                p1eaten.setText(nameEntry1.getText() + ": " + eatenNumber2);
+                                screenThing.play();
+                            }
+                    ));
+                    results.play();
                 }
                 pane.getChildren().add(p1);
                 pane.getChildren().add(p2);
@@ -566,7 +577,19 @@ public class SashaIsGone extends Application{
                 }
 
             }
-        }
+        };
+
+        Timeline animation = new Timeline(
+                new KeyFrame(Duration.millis(10205), eventHandler));
+        animation.setCycleCount(Timeline.INDEFINITE);
+        animation.play();
+
+        Scene scene = new Scene(borderPane, 500, 500);
+        playStage.setScene(scene);
+        playStage.setTitle("Laser Dodge");
+        playStage.show();
+        pane.requestFocus();
+    }
 
     public void end(Stage endStage, String winner){
         BorderPane borderPane = new BorderPane();
@@ -604,7 +627,7 @@ public class SashaIsGone extends Application{
         r.setFont(new Font("Cambria", 20));
 
         hBox1.getChildren().add(gameTitle);
-        hBox2.getChildren().add(restart);
+//        hBox2.getChildren().add(restart);
         hBox2.getChildren().add(exit);
         hBox3.getChildren().add(nameEntry1);
         hBox3.getChildren().add(nameEntry2);
@@ -634,3 +657,4 @@ public class SashaIsGone extends Application{
         borderPane.requestFocus();
     }
 }
+
