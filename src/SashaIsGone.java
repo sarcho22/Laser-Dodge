@@ -23,10 +23,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.util.ArrayList;
-
 public class SashaIsGone extends Application{
-    public ArrayList playerScores;
     public int eatenNumber1 = 0;
     public int eatenNumber2 = 0;
     public boolean p1left = false;
@@ -40,6 +37,9 @@ public class SashaIsGone extends Application{
     public TextField nameEntry1 = new TextField("Player 1");
     public TextField nameEntry2 = new TextField("Player 2");
     public TextField rounds = new TextField("10");
+    public Stage endStage = new Stage();
+
+    //public Timeline animation;
     public void start(Stage menuStage){
         BorderPane borderPane = new BorderPane();
         Rectangle bg = new Rectangle();
@@ -74,7 +74,7 @@ public class SashaIsGone extends Application{
         play.setFont(new Font("Cambria", 40));
         Button help = new Button("Help");
         help.setFont(new Font("Cambria", 40));
-        Label r = new Label("Rounds: ");
+        Label r = new Label("Play Until (points): ");
         r.setFont(new Font("Cambria", 20));
 
         hBox1.getChildren().add(credits);
@@ -358,19 +358,19 @@ public class SashaIsGone extends Application{
 
             while (p1alive && p2alive) {
                 levelName.setText("Level " + (int)(r1.getHeight()));
-                if (levelName.getText().equals("Level " + (rounds.getText()))) {
+                if (eatenNumber1 >= Integer.parseInt(rounds.getText()) || eatenNumber2 >= Integer.parseInt(rounds.getText())) {
                     String winner;
                     if (eatenNumber1 > eatenNumber2){
-                        winner = nameEntry1.getText();
+                        winner = nameEntry2.getText();
                     }
                     else if (eatenNumber2 > eatenNumber1){
-                        winner = nameEntry2.getText();
+                        winner = nameEntry1.getText();
                     }
                     else {
                         winner = "Both";
                     }
+
                     playStage.close();
-                    Stage endStage = new Stage();
                     end(endStage, winner);
                 }
                 pane.getChildren().add(p1);
@@ -519,6 +519,12 @@ public class SashaIsGone extends Application{
                                     double y = (m * x) + b;
                                     if (p1.contains(x, y) || p2.contains(x, y)) {
                                         intersects = true;
+                                        if (p1.contains(x, y)){
+                                            eatenNumber1 -= 3;
+                                        }
+                                        else{
+                                            eatenNumber2 -= 3;
+                                        }
                                     }
                                 }
                                 if (!intersects) {
@@ -576,6 +582,8 @@ public class SashaIsGone extends Application{
 
         BorderPane bp1 = new BorderPane();
         borderPane.setTop(bp1);
+        BorderPane bp2 = new BorderPane();
+        borderPane.setCenter(bp2);
 
         HBox hBox = new HBox();
         bp1.setBottom(hBox);
@@ -584,7 +592,10 @@ public class SashaIsGone extends Application{
         HBox hBox2 = new HBox();
         borderPane.setBottom(hBox2);
         HBox hBox3 = new HBox();
-        borderPane.setCenter(hBox3);
+        bp2.setCenter(hBox3);
+        HBox hBox4 = new HBox();
+        bp2.setBottom(hBox4);
+        hBox2.setSpacing(10);
         hBox3.setSpacing(10);
 
         Label gameTitle = new Label(winner + " Won!!!");
@@ -593,17 +604,21 @@ public class SashaIsGone extends Application{
         restart.setFont(new Font("Cambria", 40));
         Button exit = new Button("Exit Game");
         exit.setFont(new Font("Cambria", 40));
+        Label r = new Label("Play Until (points): ");
+        r.setFont(new Font("Cambria", 20));
 
         hBox1.getChildren().add(gameTitle);
         hBox2.getChildren().add(restart);
         hBox2.getChildren().add(exit);
         hBox3.getChildren().add(nameEntry1);
         hBox3.getChildren().add(nameEntry2);
+        hBox4.getChildren().add(r);
+        hBox4.getChildren().add(rounds);
         hBox.setAlignment(Pos.CENTER);
         hBox1.setAlignment(Pos.CENTER);
         hBox2.setAlignment(Pos.CENTER);
         hBox3.setAlignment(Pos.CENTER);
-
+        hBox4.setAlignment(Pos.CENTER);
 
         restart.setOnAction(e -> {
             endStage.close();
