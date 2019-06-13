@@ -25,7 +25,7 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 
-public class PenelIsDed extends Application{
+public class AnotherPenelopeFile extends Application{
     public ArrayList playerScores;
     public int eatenNumber1 = 0;
     public int eatenNumber2 = 0;
@@ -43,7 +43,6 @@ public class PenelIsDed extends Application{
     public Stage endStage = new Stage();
     public Stage playStage = new Stage();
     public boolean play = true;
-    public Timeline animation;
     public void start(Stage menuStage){
         BorderPane borderPane = new BorderPane();
         Rectangle bg = new Rectangle();
@@ -374,7 +373,59 @@ public class PenelIsDed extends Application{
                         winner = "Both";
                     }
                     playStage.close();
-                    end(endStage, winner);
+                    BorderPane endScreen = new BorderPane();
+                    Rectangle bg = new Rectangle();
+                    bg.widthProperty().bind(endScreen.widthProperty());
+                    bg.heightProperty().bind(endScreen.heightProperty());
+                    bg.setFill(Color.ALICEBLUE);
+                    endScreen.getChildren().add(bg);
+
+                    BorderPane bp1 = new BorderPane();
+                    endScreen.setTop(bp1);
+
+                    HBox hBox = new HBox();
+                    bp1.setBottom(hBox);
+                    HBox hBox1 = new HBox();
+                    bp1.setTop(hBox1);
+                    HBox hBox2 = new HBox();
+                    endScreen.setBottom(hBox2);
+                    HBox hBox3 = new HBox();
+                    endScreen.setCenter(hBox3);
+                    hBox3.setSpacing(10);
+
+                    Label gameTitle = new Label(winner + " Won!!!");
+                    gameTitle.setFont(new Font("Cambria", 50));
+                    Button restart = new Button("Restart");
+                    restart.setFont(new Font("Cambria", 40));
+                    Button exit = new Button("Exit Game");
+                    exit.setFont(new Font("Cambria", 40));
+
+                    hBox1.getChildren().add(gameTitle);
+//        hBox2.getChildren().add(restart);
+//        hBox2.getChildren().add(exit);
+                    hBox3.getChildren().add(nameEntry1);
+                    hBox3.getChildren().add(nameEntry2);
+                    hBox.setAlignment(Pos.CENTER);
+                    hBox1.setAlignment(Pos.CENTER);
+                    hBox2.setAlignment(Pos.CENTER);
+                    hBox3.setAlignment(Pos.CENTER);
+
+
+                    Scene scene = new Scene(endScreen, 500, 500);
+                    endStage.setScene(scene);
+                    endStage.setTitle("The end!");
+                    endStage.show();
+                    endScreen.requestFocus();
+
+                    Timeline winning = new Timeline(new KeyFrame(
+                            Duration.millis(4000),
+                            ae -> {
+                                endStage.close();
+                                eatenNumber1 = 0;
+                                eatenNumber2 = 0;
+                            }
+                    ));
+                    winning.play();
                 }
                 pane.getChildren().add(p1);
                 pane.getChildren().add(p2);
@@ -559,7 +610,7 @@ public class PenelIsDed extends Application{
         };
 
         Timeline animation = new Timeline(
-                new KeyFrame(Duration.millis(5205), eventHandler));
+                new KeyFrame(Duration.millis(9205), eventHandler));
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.play();
 
@@ -571,60 +622,6 @@ public class PenelIsDed extends Application{
     }
 
     public void end(Stage endStage, String winner){
-        BorderPane borderPane = new BorderPane();
-        Rectangle bg = new Rectangle();
-        bg.widthProperty().bind(borderPane.widthProperty());
-        bg.heightProperty().bind(borderPane.heightProperty());
-        bg.setFill(Color.ALICEBLUE);
-        borderPane.getChildren().add(bg);
 
-        BorderPane bp1 = new BorderPane();
-        borderPane.setTop(bp1);
-
-        HBox hBox = new HBox();
-        bp1.setBottom(hBox);
-        HBox hBox1 = new HBox();
-        bp1.setTop(hBox1);
-        HBox hBox2 = new HBox();
-        borderPane.setBottom(hBox2);
-        HBox hBox3 = new HBox();
-        borderPane.setCenter(hBox3);
-        hBox3.setSpacing(10);
-
-        Label gameTitle = new Label(winner + " Won!!!");
-        gameTitle.setFont(new Font("Cambria", 50));
-        Button restart = new Button("Restart");
-        restart.setFont(new Font("Cambria", 40));
-        Button exit = new Button("Exit Game");
-        exit.setFont(new Font("Cambria", 40));
-
-        hBox1.getChildren().add(gameTitle);
-//        hBox2.getChildren().add(restart);
-        hBox2.getChildren().add(exit);
-        hBox3.getChildren().add(nameEntry1);
-        hBox3.getChildren().add(nameEntry2);
-        hBox.setAlignment(Pos.CENTER);
-        hBox1.setAlignment(Pos.CENTER);
-        hBox2.setAlignment(Pos.CENTER);
-        hBox3.setAlignment(Pos.CENTER);
-
-
-        restart.setOnAction(e -> {
-            endStage.close();
-            eatenNumber1 = 0;
-            eatenNumber2 = 0;
-            game(playStage);
-        });
-
-        exit.setOnAction(e -> {
-            endStage.close();
-        });
-
-
-        Scene scene = new Scene(borderPane, 500, 500);
-        endStage.setScene(scene);
-        endStage.setTitle("The end!");
-        endStage.show();
-        borderPane.requestFocus();
     }
 }
