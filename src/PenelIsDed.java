@@ -1,3 +1,4 @@
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -36,6 +37,10 @@ public class PenelIsDed extends Application{
     public boolean p2down = false;
     public boolean p2up = false;
     public boolean p1right = false;
+    public TextField nameEntry1 = new TextField("Player 1");
+    public TextField nameEntry2 = new TextField("Player 2");
+    public TextField rounds = new TextField("10");
+    public Stage endStage = new Stage();
     public void start(Stage menuStage){
         BorderPane borderPane = new BorderPane();
         Rectangle bg = new Rectangle();
@@ -46,6 +51,8 @@ public class PenelIsDed extends Application{
 
         BorderPane bp1 = new BorderPane();
         borderPane.setTop(bp1);
+        BorderPane bp2 = new BorderPane();
+        borderPane.setCenter(bp2);
 
         HBox hBox = new HBox();
         bp1.setBottom(hBox);
@@ -54,8 +61,11 @@ public class PenelIsDed extends Application{
         HBox hBox2 = new HBox();
         borderPane.setBottom(hBox2);
         HBox hBox3 = new HBox();
-        borderPane.setCenter(hBox3);
+        bp2.setCenter(hBox3);
+        HBox hBox4 = new HBox();
+        bp2.setBottom(hBox4);
         hBox2.setSpacing(10);
+        hBox3.setSpacing(10);
 
         Label credits = new Label("Made by GoAway, IsGone, and JustDED");
         credits.setFont(new Font("Cambria", 20));
@@ -65,33 +75,30 @@ public class PenelIsDed extends Application{
         play.setFont(new Font("Cambria", 40));
         Button help = new Button("Help");
         help.setFont(new Font("Cambria", 40));
-        Label name = new Label("Enter Name: ");
-        name.setFont(new Font("Cambria", 20));
-        TextField nameEntry = new TextField();
+        Label r = new Label("Rounds: ");
+        r.setFont(new Font("Cambria", 20));
 
         hBox1.getChildren().add(credits);
         hBox.getChildren().add(gameTitle);
         hBox2.getChildren().add(play);
         hBox2.getChildren().add(help);
-        hBox3.getChildren().add(name);
-        hBox3.getChildren().add(nameEntry);
+        hBox3.getChildren().add(nameEntry1);
+        hBox3.getChildren().add(nameEntry2);
+        hBox4.getChildren().add(r);
+        hBox4.getChildren().add(rounds);
         hBox.setAlignment(Pos.CENTER);
         hBox1.setAlignment(Pos.CENTER);
         hBox2.setAlignment(Pos.CENTER);
         hBox3.setAlignment(Pos.CENTER);
-
+        hBox4.setAlignment(Pos.CENTER);
 
         play.setOnAction(e -> {
-            // shove the name into the results page!!!
             menuStage.close();
             Stage playStage = new Stage();
             game(playStage);
-            //playerScores.add(0, nameEntry.getText())
-            //playerScores.add(nameEntry.getText());
         });
 
         help.setOnAction(e -> {
-            // put code to run the help page here
             menuStage.close();
             Stage helpStage = new Stage();
             help(helpStage);
@@ -128,10 +135,12 @@ public class PenelIsDed extends Application{
         Text instructions = new Text("");
         instructions.setFont(new Font("Cambria", 20));
         instructions.setText(
-                "1. You will be a blue square,\n\tuse the arrow keys to avoid touching the lasers.\n" +
-                        "2. You will have 5 seconds to aviod the\n\t gray lasers until they turn red.\n" +
-                        "3. To score more points try to eat the\n\t purple circles that will appear on the screen.\n" +
-                        "4. Try to stay alive as long as you can\n\t and score the most points! Good Luck!"
+                "1. Player 1 will be a pink square, \n\t use the WASD keys to avoid touching the lasers.\n" +
+                        "2. Player 2 will be a blue square, \n\t use the arrow keys to avoid touching the lasers.\n" +
+                        "3. You will have a few seconds to avoid the\n\t gray lasers until they turn red. If you are \n\t" +
+                        "on the laser after it turns red, the game will restart. \n" +
+                        "4. To score points, both players will try to eat the\n\t circle that will appear on the screen.\n" +
+                        "5. Try to stay alive as long as you can\n\t and score the most points! Good Luck!"
         );
 
         hBox1.getChildren().add(gameTitle);
@@ -171,8 +180,8 @@ public class PenelIsDed extends Application{
 
         Label levelName = new Label();
         Label status = new Label("Status pending...");
-        Label p1eaten = new Label("Player 1: 0");
-        Label p2eaten = new Label("Player 2: 0");
+        Label p1eaten = new Label(nameEntry1.getText() + ": 0");
+        Label p2eaten = new Label(nameEntry2.getText() + ": 0");
         gridPane.add(levelName, 1, 0);
         gridPane.add(status, 2, 0);
         gridPane.add(p1eaten, 0, 0);
@@ -287,14 +296,14 @@ public class PenelIsDed extends Application{
                 }
             }
             if (p2down) {
-                if (p2.getY() + p2.getHeight() >= 500) {
+                if (p2.getY() + p2.getHeight() >= 480) {
                     p2.setY(p2.getY());
                 } else {
                     p2.setY(p2.getY() + 5);
                 }
             }
             if (p1down) {
-                if (p1.getY() + p1.getHeight() >= 500) {
+                if (p1.getY() + p1.getHeight() >= 480) {
                     p1.setY(p1.getY());
                 } else {
                     p1.setY(p1.getY() + 5);
@@ -350,7 +359,20 @@ public class PenelIsDed extends Application{
 
             while (p1alive && p2alive) {
                 levelName.setText("Level " + (int)(r1.getHeight()));
-                //
+                if (levelName.getText().equals("Level " + (rounds.getText()))) {
+                    String winner;
+                    if (eatenNumber1 > eatenNumber2){
+                        winner = nameEntry2.getText();
+                    }
+                    else if (eatenNumber2 > eatenNumber1){
+                        winner = nameEntry1.getText();
+                    }
+                    else {
+                        winner = "Both";
+                    }
+                    playStage.close();
+                    end(endStage, winner);
+                }
                 pane.getChildren().add(p1);
                 pane.getChildren().add(p2);
                 pane.getChildren().add(eye1);
@@ -411,13 +433,6 @@ public class PenelIsDed extends Application{
                             Duration.millis(1000),
                             ae -> System.out.println("You cleared Level: " + (r1.getHeight()-1))));
 
-//                    Timeline clear = new Timeline(new KeyFrame(
-//                            Duration.millis(1000),
-//                            ae -> {
-//                                pane.getChildren().clear();
-//                                r1.setHeight(1);
-//                            }));
-
                     Timeline eating = new Timeline(new KeyFrame(
                             Duration.millis(50),
                             ae -> {
@@ -436,27 +451,10 @@ public class PenelIsDed extends Application{
                                 if(p2.contains(eat.getCenterX()+eat.getRadius(), eat.getCenterY())) {
                                     boolEaten2 = true;
                                 }
-//                                for (double x = eat.getCenterX()-eat.getRadius()+0.01; x <= eat.getCenterX()+eat.getRadius()-0.01; x += 0.01) {
-//                                    double y = Math.sqrt(Math.pow(x - eat.getCenterX(), 2) - Math.pow(eat.getRadius(), 2))+ eat.getCenterY();
-//
-//                                    double y2 = eat.getCenterY()-y;
-//                                    if (p1.contains(x, y)) {
-//                                        boolEaten = true;
-//                                    }
-//                                    if (p1.contains(x, y2)) {
-//                                        boolEaten = true;
-//                                    }
-//                                }
-////                                for (double t = 0; t < 360; t++) {
-//                                    double x = (eat.getRadius() * Math.cos(t)) + eat.getCenterX();
-//                                    double y = (eat.getRadius() * Math.sin(t)) + eat.getCenterY();
-//                                    if (p1.contains(x, y)) {
-//                                        boolEaten = true;
-//                                    }
-//                                }
+
                                 if(boolEaten1) {
                                     eatenNumber1++;
-                                    p2eaten.setText("Player 2: " + eatenNumber1);
+                                    p2eaten.setText(nameEntry2.getText() + ": " + eatenNumber1);
                                     eat.setRadius(0);
                                     eat.setCenterX(1000);
                                     eat.setCenterY(1000);
@@ -464,7 +462,7 @@ public class PenelIsDed extends Application{
                                 }
                                 if(boolEaten2) {
                                     eatenNumber2++;
-                                    p1eaten.setText("Player 1: " + eatenNumber2);
+                                    p1eaten.setText(nameEntry1.getText() + ": " + eatenNumber2);
                                     eat.setRadius(0);
                                     eat.setCenterX(1000);
                                     eat.setCenterY(1000);
@@ -475,15 +473,12 @@ public class PenelIsDed extends Application{
                     eating.setCycleCount(Timeline.INDEFINITE);
                     eating.play();
 
-                    // (x - x-coordinate)^2+(y - y-coordinate)^2=radius^2
-                    // y-coordinate +  sqare root this side (x - x-coordinate)^2 -radius ^2 = y
-
                     Timeline pending = new Timeline(new KeyFrame(
                             Duration.millis(500),
                             ae -> {
                                 pane.getChildren().clear();
-                                p2eaten.setText("Player 2: 0");
-                                p1eaten.setText("Player 1: 0");
+                                p2eaten.setText(nameEntry2.getText() + ": 0");
+                                p1eaten.setText(nameEntry1.getText() + ": 0");
                                 eatenNumber1 = 0;
                                 eatenNumber2 = 0;
                                 status.setText("Status pending...");
@@ -494,7 +489,6 @@ public class PenelIsDed extends Application{
                             ae -> {
                                 pane.getChildren().clear();
                                 status.setText("Restarting the game now... \\(OwO)/");
-//                                clear.play();
                                 r1.setHeight(0);
                                 pending.play();
                             }));
@@ -565,9 +559,6 @@ public class PenelIsDed extends Application{
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.play();
 
-
-
-
         Scene scene = new Scene(borderPane, 500, 500);
         playStage.setScene(scene);
         playStage.setTitle("Laser Dodge");
@@ -575,7 +566,7 @@ public class PenelIsDed extends Application{
         pane.requestFocus();
     }
 
-    public void end(Stage endStage){
+    public void end(Stage endStage, String winner){
         BorderPane borderPane = new BorderPane();
         Rectangle bg = new Rectangle();
         bg.widthProperty().bind(borderPane.widthProperty());
@@ -594,29 +585,20 @@ public class PenelIsDed extends Application{
         borderPane.setBottom(hBox2);
         HBox hBox3 = new HBox();
         borderPane.setCenter(hBox3);
-        hBox2.setSpacing(10);
+        hBox3.setSpacing(10);
 
-        Label gameTitle = new Label("\n\nLeader Board");
+        Label gameTitle = new Label(winner + " Won!!!");
         gameTitle.setFont(new Font("Cambria", 50));
         Button restart = new Button("Restart");
         restart.setFont(new Font("Cambria", 40));
         Button exit = new Button("Exit Game");
         exit.setFont(new Font("Cambria", 40));
-        Label name = new Label("Enter Name: ");
-        name.setFont(new Font("Cambria", 20));
-        TextField nameEntry = new TextField();
-/*
-        for (int i = 0; i < playerScores.size(); i++){
-            Label resultLine = new Label("\n" + playerScores.get(i) + "\t" + "points");
-            resultLine.setFont(new Font("Cambria", 20));
-            hBox.getChildren().add(resultLine);
-        }
-*/
+
         hBox1.getChildren().add(gameTitle);
         hBox2.getChildren().add(restart);
         hBox2.getChildren().add(exit);
-        hBox3.getChildren().add(name);
-        hBox3.getChildren().add(nameEntry);
+        hBox3.getChildren().add(nameEntry1);
+        hBox3.getChildren().add(nameEntry2);
         hBox.setAlignment(Pos.CENTER);
         hBox1.setAlignment(Pos.CENTER);
         hBox2.setAlignment(Pos.CENTER);
@@ -636,7 +618,7 @@ public class PenelIsDed extends Application{
 
         Scene scene = new Scene(borderPane, 500, 500);
         endStage.setScene(scene);
-        endStage.setTitle("Past Results");
+        endStage.setTitle("The end!");
         endStage.show();
         borderPane.requestFocus();
     }
