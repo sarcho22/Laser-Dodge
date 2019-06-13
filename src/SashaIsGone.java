@@ -358,7 +358,7 @@ public class SashaIsGone extends Application{
 
             while (p1alive && p2alive) {
                 levelName.setText("Level " + (int)(r1.getHeight()));
-                if (levelName.getText().equals("Level " + rounds)) {
+                if (levelName.getText().equals("Level " + (rounds.getText()))) {
                     String winner;
                     if (eatenNumber1 > eatenNumber2){
                         winner = nameEntry1.getText();
