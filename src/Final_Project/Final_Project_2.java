@@ -538,12 +538,12 @@ public class Final_Project_2 extends Application{
                                     double y = (m * x) + b;
                                     if (p1.contains(x, y) || p2.contains(x, y)) {
                                         intersects = true;
-                                        if (p1.contains(x, y)){
+                                        /*if (p1.contains(x, y)){
                                             eatenNumber1 -= 3;
                                         }
                                         else{
                                             eatenNumber2 -= 3;
-                                        }
+                                        }*/
                                     }
                                 }
                                 if (!intersects) {
@@ -627,7 +627,6 @@ public class Final_Project_2 extends Application{
         r.setFont(new Font("Cambria", 20));
 
         hBox1.getChildren().add(gameTitle);
-//        hBox2.getChildren().add(restart);
         hBox2.getChildren().add(exit);
         hBox3.getChildren().add(nameEntry1);
         hBox3.getChildren().add(nameEntry2);
