@@ -38,6 +38,8 @@ public class SashaIsGone extends Application{
     public TextField nameEntry2 = new TextField("Player 2");
     public TextField rounds = new TextField("10");
     public Stage endStage = new Stage();
+
+    //public Timeline animation;
     public void start(Stage menuStage){
         BorderPane borderPane = new BorderPane();
         Rectangle bg = new Rectangle();
@@ -367,6 +369,7 @@ public class SashaIsGone extends Application{
                     else {
                         winner = "Both";
                     }
+
                     playStage.close();
                     end(endStage, winner);
                 }
