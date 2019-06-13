@@ -23,10 +23,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.util.ArrayList;
-
 public class PenelIsDed extends Application{
-    public ArrayList playerScores;
     public int eatenNumber1 = 0;
     public int eatenNumber2 = 0;
     public boolean p1left = false;
@@ -41,9 +38,8 @@ public class PenelIsDed extends Application{
     public TextField nameEntry2 = new TextField("Player 2");
     public TextField rounds = new TextField("10");
     public Stage endStage = new Stage();
-    public Stage playStage = new Stage();
-    public boolean play = true;
-    public Timeline animation;
+
+    //public Timeline animation;
     public void start(Stage menuStage){
         BorderPane borderPane = new BorderPane();
         Rectangle bg = new Rectangle();
@@ -78,7 +74,7 @@ public class PenelIsDed extends Application{
         play.setFont(new Font("Cambria", 40));
         Button help = new Button("Help");
         help.setFont(new Font("Cambria", 40));
-        Label r = new Label("Rounds: ");
+        Label r = new Label("Play Until (points): ");
         r.setFont(new Font("Cambria", 20));
 
         hBox1.getChildren().add(credits);
@@ -361,8 +357,15 @@ public class PenelIsDed extends Application{
             pane.getChildren().add(eat);
 
             while (p1alive && p2alive) {
+                Timeline results = new Timeline(new KeyFrame(
+                        Duration.millis(7000),
+                        ae -> {
+
+                        }
+                ));
+
                 levelName.setText("Level " + (int)(r1.getHeight()));
-                if (levelName.getText().equals("Level " + (rounds.getText()))) {
+                if (eatenNumber1 >= Integer.parseInt(rounds.getText()) || eatenNumber2 >= Integer.parseInt(rounds.getText())) {
                     String winner;
                     if (eatenNumber1 > eatenNumber2){
                         winner = nameEntry2.getText();
@@ -373,6 +376,7 @@ public class PenelIsDed extends Application{
                     else {
                         winner = "Both";
                     }
+
                     playStage.close();
                     end(endStage, winner);
                 }
@@ -470,7 +474,6 @@ public class PenelIsDed extends Application{
                                     eat.setCenterX(1000);
                                     eat.setCenterY(1000);
                                     pane.getChildren().remove(eat);
-                                    System.out.println("hi");
                                 }
                             }));
 
@@ -523,6 +526,12 @@ public class PenelIsDed extends Application{
                                     double y = (m * x) + b;
                                     if (p1.contains(x, y) || p2.contains(x, y)) {
                                         intersects = true;
+                                        if (p1.contains(x, y)){
+                                            eatenNumber1 -= 3;
+                                        }
+                                        else{
+                                            eatenNumber2 -= 3;
+                                        }
                                     }
                                 }
                                 if (!intersects) {
@@ -602,7 +611,7 @@ public class PenelIsDed extends Application{
         restart.setFont(new Font("Cambria", 40));
         Button exit = new Button("Exit Game");
         exit.setFont(new Font("Cambria", 40));
-        Label r = new Label("Rounds: ");
+        Label r = new Label("Play Until (points): ");
         r.setFont(new Font("Cambria", 20));
 
         hBox1.getChildren().add(gameTitle);
@@ -620,8 +629,7 @@ public class PenelIsDed extends Application{
 
         restart.setOnAction(e -> {
             endStage.close();
-            eatenNumber1 = 0;
-            eatenNumber2 = 0;
+            Stage playStage = new Stage();
             game(playStage);
         });
 

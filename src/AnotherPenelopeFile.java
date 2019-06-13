@@ -621,7 +621,4 @@ public class AnotherPenelopeFile extends Application{
         pane.requestFocus();
     }
 
-    public void end(Stage endStage, String winner){
-
-    }
 }
