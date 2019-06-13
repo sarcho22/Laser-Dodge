@@ -38,6 +38,7 @@ public class PenelIsDed extends Application{
     public TextField nameEntry2 = new TextField("Player 2");
     public TextField rounds = new TextField("10");
     public Stage endStage = new Stage();
+    public String winner;
 
     //public Timeline animation;
     public void start(Stage menuStage){
@@ -357,16 +358,8 @@ public class PenelIsDed extends Application{
             pane.getChildren().add(eat);
 
             while (p1alive && p2alive) {
-                Timeline results = new Timeline(new KeyFrame(
-                        Duration.millis(7000),
-                        ae -> {
-
-                        }
-                ));
-
                 levelName.setText("Level " + (int)(r1.getHeight()));
                 if (eatenNumber1 >= Integer.parseInt(rounds.getText()) || eatenNumber2 >= Integer.parseInt(rounds.getText())) {
-                    String winner;
                     if (eatenNumber1 > eatenNumber2){
                         winner = nameEntry2.getText();
                     }
@@ -376,9 +369,25 @@ public class PenelIsDed extends Application{
                     else {
                         winner = "Both";
                     }
-
-                    playStage.close();
-                    end(endStage, winner);
+                    Timeline screenThing = new Timeline(new KeyFrame(
+                            Duration.millis(5000),
+                            ae -> {
+                                endStage.close();
+                            }
+                    ));
+                    Timeline results = new Timeline(new KeyFrame(
+                            Duration.millis(1),
+                            ae -> {
+                                end(endStage, winner);
+                                eatenNumber1 = 0;
+                                eatenNumber2 = 0;
+                                r1.setHeight(0);
+                                p2eaten.setText(nameEntry2.getText() + ": " + eatenNumber1);
+                                p1eaten.setText(nameEntry1.getText() + ": " + eatenNumber2);
+                                screenThing.play();
+                            }
+                    ));
+                    results.play();
                 }
                 pane.getChildren().add(p1);
                 pane.getChildren().add(p2);
@@ -568,7 +577,7 @@ public class PenelIsDed extends Application{
         };
 
         Timeline animation = new Timeline(
-                new KeyFrame(Duration.millis(5205), eventHandler));
+                new KeyFrame(Duration.millis(10205), eventHandler));
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.play();
 
